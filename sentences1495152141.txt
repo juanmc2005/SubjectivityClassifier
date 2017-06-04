@@ -1043,3 +1043,136 @@ S@Si, lo que no considero posible, os faltasen los medios de existencia, acudid 
 S@Pero renunciad al absurdo proyecto de casaros con mi cocinera, porque no debéis enlazar vuestra suerte a la de una simple criada, y no quiero, por otra parte, chiquillos en mi casa
 S@El infeliz lloró copiosamente y se deshizo en protestas de sincero agradecimiento
 S@Aún no habían transcurrido ocho días, cuando le hizo entrar, como peón de albañil, en una fábrica de espejos de la calle de Sèvres
+O@﻿ En este artículo se presenta una propuesta de modelo de evaluación  de procesos educativos mediados por TIC
+O@Se analizan los antecedentes  referidos a la temática de calidad en educación, y en particular, en educación a  distancia
+O@Se describe el modelo propuesto, y se realiza, posteriormente, un  análisis de las bondades y debilidades del modelo propuesto, en base a su  aplicación en algunas experiencias educativas
+O@Finalmente, se analizan los  resultados, y se exponen algunas conclusiones
+S@Las Instituciones de Educación Superior (IES) no están ajenas a esta situación, y  deben aprovechar al máximo el potencial de estos recursos, de manera tal de generar  propuestas innovadoras que contribuyan a alcanzar sus objetivos
+S@Hoy existe una extensa más que intensa proliferación y producción de programas  de Educación a Distancia sin una reflexiva o profunda evaluación de los mismos
+O@Todas estas consideraciones en relación con los objetivos que se persiguen,  determinarán los caminos que seguirá el proyecto educativo en relación a un marco de  calidad y mejora continua
+S@Muchos autores afirman que el concepto de calidad es relativo
+S@Como se mencionó al principio, existen diferentes opiniones acerca de cómo  considerar la calidad y su forma de evaluación
+O@Referentes de la  Universidad de Texas, abordan la cuestión de la calidad sobre tres pilares  fundamentales: la calidad de los materiales educativos, de la presentación y de la  atención a los estudiantes
+O@En tanto que, en la Open University de Estados Unidos, se  visualiza la calidad desde las siguientes perspectivas: los contenidos y diseño de los  materiales educativos, la comunicación entre docentes y alumnos y la institución en  general, y la tecnología adecuada que preste soporte a estos procesos
+O@En la siguiente sección se presentará la propuesta diseñada por los autores de este  trabajo para evaluar la calidad de un sistema / programa/ proceso educativo a  distancia, que integra algunos de los elementos presentados en la lista anterior
+O@Este  modelo también puede adaptarse para procesos educativos de modalidad híbrida,  donde se combinan encuentros presenciales con estrategias de trabajo y aprendizaje a  distancia
+O@A medida que se desciende en las capas, se gana en especificidad  respecto de aspectos propios de la educación mediada por TIC
+O@El modelo puede ser  adaptado acorde al objeto específico de evaluación, el contexto y las necesidades  particulares de cada caso
+S@Así  la institución  educativa está inmersa en un cierto contexto sociocultural, político y económico, que  presenta determinadas demandas y necesidades
+O@El primero pertenece al señor Pozzo di Borgo, el segundo al conde Mailly, el tercero al duque de Choiseul y el último, que hace esquina a la calle Bellechasse, al barón de Sanglié
+S@El aspecto de este edificio es noble
+O@Las armas de los Sanglié, pintadas en negro, se descubren en todas las paredes del vestíbulo
+O@El escudo tiene por soporte dos lebreles, y está rematado con el penacho de barón
+S@Como media docena de lebreles vivos, agrupados según su capricho, se aburren al pie de la escalera, mordisquean las verónicas floridas en los vasos del Japón o se tienden sobre la alfombra alargando la cabeza serpentina
+S@Los lacayos, sentados en banquetas de Beauvais, cruzan solemnemente los brazos, como conviene a los criados de buena casa
+O@El día 1 de enero de 1853, hacia las nueve de la mañana, toda la servidumbre del hotel celebraba en el vestíbulo un congreso tumultuoso
+O@El administrador del barón, el señor Anatolio, acababa de distribuirles el aguinaldo
+O@El mayordomo había recibido quinientos francos, el ayuda de cámara doscientos cincuenta
+S@El menos favorecido de todos, el marmitón, contemplaba con una ternura inefable dos hermosos luises de oro completamente nuevos
+S@Los tales individuos formaban un grupo bastante pintoresco alrededor de una de las bocas del calorífero
+S@Aquí y acullá se distinguía a lo largo de las paredes, una fusta, una almohaza, un encerador, escobas, plumeros y algo más cuyo nombre ignoro
+S@El señor dormía hasta mediodía, como quien ha pasado la noche en el club, y por lo tanto tenían tiempo para empezar sus faenas
+S@Pero yo tengo familia
+S@Por eso pienso entregarle el dinero a ese buen señor que va a la Bolsa, y algo me producirá
+S@Es una buena idea, señor Fernando
+O@El ayuda de cámara se creyó obligado también a intervenir y exclamó en tono de protección:
+O@los llevaré a la Caja de ahorros
+S@El cochero soltó una ruidosa carcajada y se dio unos puñetazos sobre el estómago gritando:
+O@Esta es mi caja de ahorros
+O@Quince o diez y seis exclamaciones se elevaron al mismo tiempo
+S@El oro mezclaba su aguda vocecita con aquel concierto de pasiones vulgares; y el choque de las piezas de veinte francos, más embriagador que los vapores del vino o el olor de la pólvora, emborrachaba a aquellos pobres cerebros y aceleraba los latidos de sus groseros corazones
+S@Los gritos se detuvieron en sus gargantas y el oro ya no volvió a sonar en sus bolsillos
+S@La pobre mujer había dejado detrás de ella como una estela de silencio y de estupor
+S@He creído ver pasar a la miseria en persona
+S@¡Brrr! tengo frío en la espalda
+S@Es que el vagabundo de su marido se lo ha comido todo
+S@No es él el que me interesa: tiene lo que se merece
+S@¿Se sabe algo de la señorita Germana?
+O@Su negra me ha dicho que cada día está peor
+O@A cada golpe de tos llena un pañuelo
+S@¡Y sin una alfombra en su habitación! Esa niña no se curaría más que en un país templado, en Italia, por ejemplo
+S@Será un ángel para Dios
+S@Los que quedan son más dignos de compasión
+S@¡No sé cómo se las arreglará la duquesa para salir de este atolladero
+S@¡A todos debe! Ultimamente el panadero se ha negado a fiarles más
+S@¿Cuánto deben de alquiler?
+S@Ochocientos francos; pero lo que me extraña es que siquiera el señor haya visto el color de su dinero
+S@Si yo fuese él, preferiría tener desalquilado el piso antes que permitir que viviesen en él personas que deshonran la casa
+S@creo que tengo razón para burlarme
+S@¿Por qué no trabajan? Los duques son hombres como los demás
+S@estás diciendo cosas incoherentes
+S@La prueba de que no son hombres como los demás, es que yo, tu superior, no sería ni barón durante una hora de mi vida
+S@Además, la duquesa es una mujer sublime y hace cosas de las que ni tú ni yo seríamos capaces
+S@¿Tomarías tú caldo durante todo un año y en todas las comidas?
+S@¡Caramba! ¡No me parece eso muy divertido!
+S@¡Pues bien! la duquesa pone el puchero a la lumbre cada dos días, porque a su marido no le gusta la sopa de vigilia
+S@El señor se come su tapioca de caldo graso y un bistec y un par de chuletas, y la pobre y santa mujer se conforma con los desperdicios
+S@Es hermoso, ¿verdad?  El marmitón pareció muy conmovido
+S@me interesan mucho esas pobres gentes
+S@¿No podríamos enviarles algo por medio de la negra?
+S@¡Sí, sí! ella es tan orgullosa como los otros; no querría nada de nosotros
+S@Y, no obstante, tengo la seguridad de que no se desayuna todos los días
+S@Esta conversación se hubiera prolongado indefinidamente a no llegar oportunamente el señor Anatolio para interrumpirla, en el preciso momento en que el guarda, que aun no había abierto la boca, iba a tomar la palabra
+S@Hija de los duques de Bretaña, casada con un antiguo gobernador del Senegal, la duquesa llevaba un sombrero de paja teñido de negro cuyas cintas se retorcían como bramantes
+S@Un velillo de imitación, agujereado por cinco o seis sitios distintos, mal ocultaba su cara, dándole además un aspecto extraño
+S@Aquel hermoso rostro, sembrado de pequeñas manchas, producía el efecto de que estuviese desfigurada por la viruela
+S@La ropa que se ocultaba debajo del mantón estaba tan usada, que no se hubiese podido decir de qué clase era a la simple vista
+S@Algunas veces, al pasar por un charco, el vestido se levantaba por un lado y dejaba ver una media de lana gris y un sencillo refajo de algodón negro
+S@Las manos de la duquesa, enrojecidas por un frío muy vivo, se escondían bajo su chal
+S@Al andar, arrastraba los pies, no por indolencia, sino por el miedo de perder los zapatos
+S@Por un contraste que hemos podido observar más de una vez, la miseria no había afeado a la duquesa, que no estaba pálida ni delgada
+S@Había recibido de sus antepasados una de esas bellezas rebeldes que lo resisten todo, incluso el hambre
+O@Se ha visto a presos que engordaban en su calabozo hasta la hora de la muerte
+O@Existen indicadores que las IES  tienen en cuenta, para estudiar lo que el contexto requiere o hacia donde está  evolucionando
+O@Puede aportarle información acerca de sus  necesidades y expectativas
+O@Al mismo tiempo, las IES impactan sobre el alumno (a  partir de sus metas/objetivos)
+O@El alumno percibe la institución y puede dar opinión  acerca de ésta
+O@Los Agentes de Evaluación externa son otro componente fundamental,  que toman información de la institución, y dan a la misma un “feedback” específico  para su evolución en la calidad educativa
+S@Entendemos que si la institución logra la funcionalidad, disponibilidad,  eficacia, eficiencia, información e innovación (acorde con las definiciones de Aretio),  ha dado un gran paso para asegurar la calidad del sistema
+O@A continuación describimos la propuesta de cada una de las capas del modelo
+O@Capa 1: en la capa 1 se definen los criterios generales a considerar en el modelo
+O@Aquí se han considerado los del modelo de García Aretio, pero en referencia a los  componentes que hemos descrito en el párrafo anterior (metas/objetivos, procesos,  recursos, resultados, mejoras)
+O@Estos pueden verse en la Figura 2
+O@La capa 1  involucra este tipo de decisiones ajustando criterios en base a las necesidades del  contexto
+O@Capa 2: en la segunda capa de este modelo se proponen algunos indicadores que  se relacionan en forma directa con los criterios de la primera capa
+O@Para ello, es  necesario que se determinen los procesos, recursos y resultados, que se consideran de  interés en un sistema de educación a distancia
+O@Al aplicar la capa 2 en una evaluación  específica, se deben ajustar estos indicadores propuestos por el modelo, acorde al  contexto
+O@No siempre será necesario aplicar todos, o tal vez en algunos casos se  requiera involucrar nuevos indicadores
+O@Sólo se presenta en el modelo un conjunto de  indicadores que se creen pertinentes en una evaluación de calidad de sistemas de  EAD, en general
+O@Circuitos para entregar credenciales de acceso a entornos virtuales  de enseñanza y aprendizaje (en caso de haberlos), etc
+S@Algunos posibles indicadores:  Vinculados a la funcionalidad: por ejemplo, cantidad de alumnos y docentes que  manifiestan satisfacción respecto de los circuitos administrativos y de consulta  disponibles en la institución
+O@Puede indicar faltas de  información administrativa adecuada; cantidad de trámites administrativos iniciados  en el día en relación con los finalizados; cantidad/porcentaje de consultas recibidas a  través de los diferentes medios disponibles
+O@De Desarrollo de políticas y normativas legales: definición de criterios  metodológicos mínimos, definiciones sobre temas como propiedad intelectual,  licencias de software, recomendaciones institucionales, criterios para la selección de  docentes y recursos, etc
+S@Algunos posibles indicadores son:   Vinculados a la funcionalidad: cantidad de circunstancias o sucesos ocurridos no  contemplados en las reglas y normativas establecidas
+O@Vinculados a la eficacia y eficiencia: cantidad de excepciones que se deben realizar  a las normas y políticas establecidas; cantidad de criterios, y normas que son  realmente implementados por los recursos humanos de la institución versus cantidad  de criterios y normas establecidos en cada caso
+O@De Gestión de fondos y soporte financiero/ económico: circuitos para conseguir  fondos, distribución equilibrada de los fondos y recursos acorde a las prioridades en  las metas/objetivos
+O@Análisis de los soportes económicos para asumir costos de los  recursos involucrados, etc
+S@Algunos posibles indicadores son:  Vinculados a la funcionalidad: cantidad de organismos estatales y privados que  financian, motivan, premian, otorgan becas, incentivos para que las IES dispongan de  programas para la educación a distancia
+O@De Selección, Formación y Capacitación de docentes: determinación de las  estrategias y criterios de selección de docentes, definición de los roles tutoriales  CACIC 2011
+O@De Diseño y producción de materiales educativos y mantenimiento de  repositorios: definición metodológica y roles involucrados, estrategias de diseño,  implementación, almacenamiento y disponibilidad (inclusión de repositorios) de los  materiales
+O@Vinculación con políticas de propiedad intelectual
+S@Posibles indicadores:  Vinculados a la funcionalidad: grado en que la evaluación interna se apega a  estándares de evaluaciones nacionales e internacionales
+S@Es importante aclarar que los ejemplos presentados sobre indicadores constituyen  un conjunto que no es exhaustivo, pero permite orientar el tipo de trabajo a realizar en  la capa 2
+S@Además se aconseja al lector  consultar algunos ejemplos más generales en [8]
+O@Capa 3: en esta capa se propone tomar cada uno de los indicadores para los  procesos y criterios en cuestión, y analizarlos de manera tal de concretar la evaluación  para el objeto particular a considerar (curso, sistema, proyecto de EAD)
+O@Esta capa es  la más específica y debe ajustarse al contexto particular
+O@Como podrá observarse en el  desarrollo que se ha realizado en la capa 2, existen algunos indicadores que son  cuantitativos mientras que hay otros más cualitativos
+O@La definición de escalas para la  determinación de calidad, dependerá de esto en cada caso
+O@En la evaluación, se analizaron algunos de los criterios planteados para  dos procesos: de Administración y Gestión, y el de Enseñar y Aprender
+O@En particular,  se focalizaron los criterios de Eficiencia, Eficacia y Funcionalidad [9] [10]
+O@Esto nos ha permitido iniciar un proceso de análisis de los puntos fuertes y débiles  de esta propuesta, de manera tal de ajustarlo o generar una serie de recomendaciones,  previo a su próxima aplicación
+O@En el siguiente apartado, se presentará el análisis realizado acerca del modelo  propuesto, detallando algunas recomendaciones, así como sus puntos Fuertes y  débiles
+O@ECALEAD presenta un modelo de evaluación en tres capas que permiten ir  gradualmente desde la definición de procesos, criterios, indicadores hasta las medidas  a considerar para evaluar, desde un sistema de educación a distancia a un proceso  educativo particular, como puede ser un curso en esta modalidad
+O@También, es posible  ajustarlo para analizar procesos educativos híbridos, tales como blended learning, o  extended learning
+O@Sin  embargo, dicha flexibilidad, obliga a quien trabaje con ECALEAD, a revisar  detalladamente con qué procesos se abordará la evaluación, criterios e indicadores  que puedan ser accesibles y/o adecuados acorde al objeto de estudio particular
+S@Seguramente, se podrán tener en cuenta todos los procesos que  se han planteado en este modelo
+O@Sin embargo, si quiénes quieran aplicar el  ECALEAD son los docentes de un curso particular, es probable que no puedan  considerarse políticas y normativas propias del curso si no las propias de la institución  que lo gestione/organice
+O@Es por ello, que la aplicación del modelo deberá ajustarse  acorde a las posibilidades de cada contexto específico
+O@A continuación se presenta una tabla de fortalezas y debilidades encontradas en el  modelo
+O@Esto permite  dividir la tarea, ordenarla y concentrarse en  cada momento en los aspectos propios de  cada capa
+O@Sólo se presentan un conjunto de indicadores  para cada criterio, pero este conjunto puede  no abarcar algunas situaciones importantes  para el objeto a evaluar, que quedan en  manos de quienes lleven adelante la  evaluación
+O@Esto puede provocar, omisiones  importantes en la evaluación, si no se lo  ajusta adecuadamente
+O@La  calidad de los instrumentos utilizados para  recoger información, influirán notablemente  en los resultados de la evaluación
+O@La aplicación del modelo completo permite  dar cuenta de una variedad de cuestiones que  hacen a la calidad del sistema/proceso  educativo en cuestión
+O@6   Conclusiones  En el presente trabajo se ha presentado el modelo de evaluación de calidad de  sistemas/procesos educativos a distancia o híbridos: ECALEAD
+O@Como próximo trabajo se realizará una  nueva aplicación del modelo, para refinar este análisis

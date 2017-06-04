@@ -13,7 +13,8 @@ with open('texts/Metadata_es.txt', 'r', encoding='ISO-8859-1') as md:
 import time
 
 
-PATH = 'continue1495307914.txt'
+# PATH = 'res/books/pg47103.txt'
+PATH = 'continue1496610628.txt'
 TIMESTAMP = str(round(time.time()))
 
 
