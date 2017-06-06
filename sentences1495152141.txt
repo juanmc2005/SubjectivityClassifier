@@ -1485,3 +1485,210 @@ O@Prestar atención a la formación de grupos de trabajo
 O@Considerar la presencia de un tutor o docente que esté alerta de preguntas y realice el acompañamiento pertinente en cada etapa
 O@Evaluar la actividad, según las indicaciones dadas en la planificación
 O@Evaluar tanto el resultado del trabajo como el proceso de interacción en el ambiente “e”.
+O@﻿La programación híbrida ha alcanzado importancia a raíz de la aparición de las arquitecturas cluster de multicores, fruto del avance tecnológico de los procesadores y las limitaciones físicas que imponían las arquitecturas tradicionales
+O@Este nuevo paradigma de programación permite aprovechar la nueva jerarquía de memoria que la arquitectura provee
+O@El objetivo de este trabajo es realizar un análisis comparativo de dos paradigmas de programación paralela, el paradigma de pasaje de mensajes, (utilizado en los clusters tradicionales) y la programación híbrida (donde se combina pasaje de mensajes y memoria compartida)
+O@La experimentación se realiza sobre el problema clásico de multiplicación de matrices
+O@La arquitectura de prueba utilizada en el análisis experimental es un cluster de multicores
+O@Las arquitecturas paralelas han evolucionado en pos de obtener mejores tiempos de respuesta para las aplicaciones
+O@En esta evolución pueden mencionarse los clusters, luego los multicores, y actualmente las arquitecturas de clusters de multicores
+O@Un cluster de multicores consiste en un conjunto de procesadores multicore interconectados mediante una red, en la que trabajan cooperativamente como un único recurso de cómputo
+O@Esto permite combinar las características más distintivas de la arquitectura de memoria distribuida de los cluster con la memoria compartida de los multicores
+S@Teniendo en cuenta el auge de esta arquitectura, es importante el estudio de nuevas técnicas para la programación de algoritmos paralelos que aprovechen eficientemente la potencia de la misma, considerando los sistemas híbridos en los que se combina memoria compartida y distribuida
+O@A la hora de implementar un algoritmo paralelo es muy importante considerar la jerarquía de memoria con la que se cuenta, ya que ello incidirá directamente en la performance alcanzable del mismo
+O@La performance de la memoria está determinada por dos parámetros de hardware
+O@En la Figura 1 se muestra un esquema de la jerarquía de memoria en las diferentes arquitecturas
+O@En el caso de clusters tradicionales (homogéneos y heterogéneos) existen los niveles de memoria propios de cada procesador (registros del procesador y nivel L1 y L2 de cache), pero además se incluye un nuevo nivel
+O@En el caso de los clusters de multicores, se introduce un nivel más en la jerarquía de memoria al agregar la memoria distribuida accesible vía red
+O@Existe un gran número de aplicaciones paralelas en diferentes áreas
+O@Una de las más tradicionales y ampliamente estudiada en el cómputo paralelo (dado que constituye la base de otras) es la multiplicación de matrices, la cual se utiliza en este trabajo
+O@El motivo por el cual se utiliza esta aplicación (ampliamente probada y evaluada) es que la misma permite utilizar y explotar el paralelismo de datos, y por otro lado la facilidad del mismo para escalar el problema al aumentar el tamaño de las matrices
+O@En esta aplicación los problemas de sincronización son mínimos y nos permiten enfocar directamente en el consumo de memoria, que es una limitación importante del problema elegido
+O@De esta forma, pueden compararse las soluciones que utilizan pasaje de mensajes con aquellas que utilizan memoria compartida y pasaje de mensajes (híbrida)
+O@Este artículo está organizado de la siguiente manera
+O@En la Sección 2 se detalla la contribución del trabajo, mientras que la Sección 3 describe las características de la programación híbrida
+O@En la Sección 4 se detalla el caso de estudio, mientras que en la Sección 5 se muestran las soluciones implementadas y la arquitectura utilizada para generar los resultados mostrados en la Sección 6
+O@Por último, en la Sección 7 se exponen las conclusiones y líneas de investigación futuras
+O@El análisis se realiza en base al tiempo de ejecución y eficiencia de la solución híbrida al escalar el tamaño del problema y la cantidad de núcleos utilizados y en comparación con soluciones que utilizan sólo pasaje de mensajes
+O@En el primer caso, los datos accedidos por la aplicación se encuentran en una memoria global accesible por los procesadores paralelos
+O@Esto significa que cada procesador puede buscar y almacenar datos de cualquier posición de memoria independientemente uno de otro
+O@Se caracteriza por la necesidad de la sincronización para preservar la integridad de las estructuras de datos compartidas
+O@En el pasaje de mensajes, los datos son vistos como asociados a un proceso particular
+O@De esta manera, se necesita de la comunicación por mensajes entre ellos para acceder a un dato remoto
+O@En este modelo, las primitivas de envío y recepción son las encargadas de manejar la sincronización
+O@La arquitectura cluster de multicores permite introducir un nuevo modelo de programación paralela como es la programación híbrida
+O@En la misma se combinan las estrategias recientemente expuestas
+O@La comunicación entre procesos que pertenecen al mismo procesador físico puede realizarse utilizando memoria compartida (nivel micro), mientras que la comunicación entre procesadores físicos (nivel macro) se suele realizar por medio de pasaje de mensajes
+O@El objetivo de utilizar el modelo híbrido es aprovechar y aplicar las potencialidades de cada una de las estrategias que el mismo brinda, de acuerdo a la necesidad de la aplicación
+S@Esta es un área de investigación de interés actual, y entre los lenguajes que se utilizan para programación híbrida aparecen Pthreads para memoria compartida y MPI para pasaje de mensajes
+O@Los estudios experimentales fueron realizados en base a la implementación del algoritmo de multiplicación de matrices tradicional para el caso secuencial
+O@Para las soluciones paralelas, se llevaron a cabo soluciones en las que los resultados (matriz C) se calculan por bloques
+O@Las mismas se implementaron utilizando diferentes modelos de programación paralela
+O@Tanto la solución secuencial como las paralelas, fueron desarrolladas utilizando el lenguaje C
+O@La solución paralela que utiliza pasaje de mensajes como mecanismo de comunicación entre procesos, usa para ello la librería OpenMPI
+O@La solución híbrida utiliza la librería Pthreads para memoria compartida junto a OpenMPI para el pasaje de mensajes
+O@En la investigación realizada en este artículo, se realiza un análisis experimental del comportamiento de una aplicación híbrida, desde el punto de vista de los modelos de programación, en una arquitectura cluster de multicores
+O@En este caso, se procesaron matrices cuadradas de 1024, 2048, 4096, 8192, 16384 y 28672 filas y columnas
+O@El hardware utilizado para llevar a cabo las pruebas es un Blade de 16 servidores (hojas)
+O@Cada hoja posee 2 procesadores quad core Intel Xeón e5405 de 2.0 GHz; 14 hojas poseen 2 Gb de memoria RAM mientras que las dos restantes poseen 10GB
+O@En todos los casos las características de la misma son las siguientes
+O@El sistema operativo utilizado es Fedora 12 de 64 bits
+O@A continuación se describen las soluciones implementadas
+O@En todos los casos la multiplicación de matrices se realiza almacenando la matriz A por filas y la matriz B por columnas de manera de poder aprovechar la localidad espacial y temporal de la memoria cache en el acceso a los datos
+O@Se resuelve secuencialmente el valor de cada posición de la matriz C según la Ecuación 1
+O@Para mejorar el acceso a los datos se resuelve por filas de izquierda a derecha, y la matriz C se almacena por filas
+O@En este caso, el cálculo de la matriz C se realiza por bloques
+O@Para ello cada proceso recibe las filas de A y las columnas de B necesarias para calcular el bloque de la matriz C que le fue asignado
+O@La cantidad de bloques en que se divide la matriz C es divisible por la cantidad de procesos
+O@El algoritmo utiliza una interacción de tipo master/worker, donde el master trabaja tanto de coordinador como de worker
+O@El mismo, divide la matriz C en bloques a procesar y posteriormente genera fases de procesamiento
+O@Dado que todos los procesadores tienen la misma potencia de cómputo y que todos los bloques a procesar son del mismo tamaño, todos procesarán (aproximadamente) a la misma velocidad
+O@De esta manera, en cada fase de procesamiento, el master reparte las filas de la matriz A y las columnas de la matriz B según el bloque correspondiente a cada worker, incluyendo un bloque para él
+O@Procesa su bloque y luego recibe de todos los demás los resultados para poder así pasar a la siguiente fase de procesamiento
+O@La cantidad de fases de procesamiento se calcula de la siguiente manera
+O@si b es la cantidad de bloques que se deben procesar y w la cantidad de workers (incluyendo al master que funciona como worker también), la cantidad de fases es b/w
+O@En esta solución existe un proceso por hoja que internamente genera 7 hilos para hacer su procesamiento
+O@De esta manera, cada hoja trabaja con 8 hilos (los 7 generados más el proceso en sí)
+O@Se utiliza una estructura master/worker en la que uno de los procesos actúa como master, dividiendo la matriz C en bloques a ser procesados
+O@Al igual que en el caso de pasaje de mensajes, el proceso master también actúa como worker y se generan las fases de procesamiento ya explicadas
+O@En cada fase, una vez que reparte los bloques a los workers, genera los hilos correspondientes para procesar su propio bloque, dividiendo el mismo en filas para que cada hilo procese un subconjunto de las mismas
+O@Los demás procesos worker actúan de la misma manera recibiendo datos y enviando sus resultados al proceso master
+O@Divide la matriz C en bloques
+O@Comunica las filas correspondientes de la matriz A y las columnas correspondientes de la matriz B a los procesos worker, según el bloque que va a procesar cada uno
+O@Genera los hilos y procesa el bloque que le corresponde
+O@Recibe los resultados de los procesos worker
+O@Comunican los resultados al proceso master
+O@A continuación se muestran los resultados obtenidos en las pruebas experimentales realizadas
+O@Los tamaños de prueba de las matrices (cuadradas) así como de los bloques (cuadrados) se eligieron de manera de no generar swapping a disco en ninguna de las soluciones
+O@Por otro lado, se minimizó la cantidad de bloques necesarios, de manera que sean divisibles por la cantidad de workers, minimizando la cantidad de fases de procesamiento
+O@En la Tabla 1 se muestran los tiempos de ejecución de la solución secuencial
+O@En todos los casos los tiempos de ejecución están expresados en segundos
+O@En las pruebas se escala la dimensión de la matriz, así como también la cantidad de núcleos
+O@En la Figura 2 se muestran los speedups obtenidos para las pruebas mencionadas
+O@En función de los resultados obtenidos, se observa que en la solución híbrida los tiempos de ejecución son en todos los casos mejores que los obtenidos por la solución con pasaje de mensajes
+O@Asimismo, a medida que aumenta el tamaño del problema, la diferencia de tiempo entre ambas soluciones también aumenta, en favor de la solución híbrida
+O@En la Tabla 3 se muestra la eficiencia alcanzada por las diferentes alternativas de prueba, mientras que en la Figura 3 puede verse un gráfico comparativo que muestra dicha información
+O@En el caso de pasaje de mensajes, al aumentar la cantidad de unidades de procesamiento a 32, para tamaños entre 1024 y 8192, debemos aumentar la cantidad de bloques a procesar para que cada worker pueda procesar al menos un bloque
+O@Esto disminuye la eficiencia debido al aumento de comunicación y sincronización entre los procesos
+O@Sin embargo, esto no sucede en el caso del algoritmo híbrido
+O@Esto se debe a que no es necesario aumentar la cantidad de bloques a procesar cuando pasamos de 16 a 32 unidades de procesamiento
+O@Entonces al tener más unidades de cómputo para la misma cantidad de bloques, disminuimos, en lugar de aumentar como en el caso de mensajes, la cantidad de comunicación y sincronización, alcanzando una mejor eficiencia
+O@Esto se debe a que como el volumen de datos a procesar es pequeño, los costos de comunicación y sincronización para 32 núcleos frente al tiempo de cómputo son más altos que para 16 núcleos
+S@No hay que olvidar que en el caso híbrido, para 16 núcleos, tenemos 2 procesos que internamente mediante la generación de hilos, utilizan 8 núcleos cada uno y que para 32, tenemos 4 procesos con las mismas características que los anteriores
+S@Por otro lado, hay que destacar que la eficiencia alcanzada por la solución de pasaje de mensajes para 16384 * 16384 y para 28672 * 28672 elementos con 16 y 32 núcleos, se ve degradada frente a los demás tamaños para la misma cantidad de núcleos
+O@Esto se debe a que las limitaciones en la memoria principal disponible en cada hoja, provoca que sea necesario aumentar la cantidad de bloques de procesamiento, dado que es necesario que los mismo sean más chicos para evitar el swapping
+O@De esta manera se generan más fases de procesamiento y sincronización que atentan contra la eficiencia alcanzable por el algoritmo
+O@Este impacto es más notorio para 16 núcleos que para 32, dado que para la misma cantidad de bloques, con 32 núcleos habrá menos fases de sincronización que para 16
+O@Lo mismo ocurre para el caso híbrido con 28672 * 28672 elementos
+O@En referencia a la escalabilidad, los resultados obtenidos muestran que la solución híbrida es escalable y que el aumento del tamaño del problema incrementa la eficiencia lograda por el algoritmo
+O@Por otro lado, la comparación entre la solución de pasaje de mensajes con respecto a la híbrida permite ver que esta última es la que da como resultado mejores tiempos de ejecución
+O@En este sentido, se observa la mejora introducida por la solución híbrida que aprovecha las características del problema y la arquitectura utilizada
+O@La posibilidad de aprovechar la memoria compartida evita la replicación de datos en cada hoja
+O@Para el caso particular del problema elegido como caso de estudio, evita replicar las filas de la matriz A y las columnas de la matriz B que le corresponden según el bloque que debe procesar en cada uno de los workers
+O@Esto se refleja en los tamaños de bloques necesarios para evitar el swapping
+O@Las líneas de investigación futuras incluyen el análisis de la eficiencia energética de los algoritmos que utilizan el paradigma de programación híbrida y el estudio de optimización de algoritmos híbridos sobre clusters heterogéneos
+O@﻿ Las imágenes satelitales pueden ser utilizadas para identificar las cubiertas presentes en la superficie terrestre, buscando clasificar agua, suelo desnudo, áreas edificadas, bosques, etc
+O@El proceso de clasificación de imágenes permite la extracción de información contenida en ellas, complementando el análisis visual con la aplicación de técnicas cuantitativas para automatizar la identificación de los objetos contenidos en una escena
+O@En este contexto, se desarrolla una herramienta que permite clasificar cubiertas de manera automática a través de la aplicación de algoritmos de clasificación que no han sido evaluados exhaustivamente en imágenes satelitales
+O@A partir de los resultados obtenidos se realiza un análisis detallado de los algoritmos bajo diferentes configuraciones iniciales
+O@Las imágenes satelitales pueden ser utilizadas en diversas actividades para identificar cubiertas presentes en la superficie terrestre, demostrando la necesidad de promover esta tecnología de forma que constituya un apoyo para reducir el tiempo invertido en la elaboración de investigaciones sobre la superficie terrestre
+O@Gracias a su formato digital es posible aplicar sobre ellas procedimientos matemáticos para la clasificación automática de grandes superficies
+O@De esta manera, las imágenes son procesadas a través de algoritmos para asignar a cada pixel un tipo de cobertura de la tierra
+O@Esto provoca que sea necesario realizar una serie de correcciones para atenuar las alteraciones y descartar errores introducidos por las mismas
+O@No obstante K-means supone como condición inicial que el número de clústers es conocido previamente, lo cual no necesariamente se cumple en las situaciones reales
+O@De esta manera, los resultados finales son sensibles a las condiciones iniciales
+S@En este contexto, resulta de gran interés desarrollar una herramienta para categorizar cubiertas a través de algoritmos de clasificación eficientes y precisos, aplicándolos a imágenes satelitales, y cuyos parámetros puedan ser configurables
+O@En la sección 2 se detallan los aspectos principales de los métodos de clasificación desarrollados para imágenes satelitales, junto con ejemplos de su aplicación
+O@En la sección 3 se describen los algoritmos de clasificación y métodos de inicialización propuestos e implementados en la herramienta desarrollada
+O@En la sección 4 se presentan los análisis realizados, describiendo la evaluación de los métodos de inicialización, el análisis de las clasificaciones aplicadas sobre cada banda de las imágenes satelitales individualmente y la comparación de K-Means con un clasificador básico como el basado en NDVI
+O@Finalmente, en la sección 5 se detallan las conclusiones obtenidas junto con las posibles extensiones de este trabajo
+O@Una imagen segmentada en diversas clases puede ser más informativa que la imagen satelital original en cualquiera de las bandas espectrales
+O@De esta manera se busca que los algoritmos de clasificación trabajen con clases, para lo cual es necesario proveerles algún tipo de “conocimiento” sobre la relación entre estas clases y las firmas espectrales
+O@La clasificación de imágenes satelitales se ve afectada por la resolución espacial y espectral y puede realizarse a través de clasificadores por píxeles o por regiones
+O@Los primeros consideran la reflectancia de cada píxel para asignarlo a una clase, mientras que los segundos consideran la vecindad del píxel mediante un proceso de agrupación de píxeles vecinos en regiones homogéneas, previo a la clasificación
+O@El método de clasificación basado en Region Growing forma parte de la categoría de métodos de clustering por regiones, mientras que K-means se incluye en los métodos de agrupación por pixeles
+O@A continuación se describen las aplicaciones de estos métodos en imágenes satelitales encontradas en la literatura con el propósito brindar una base para el desarrollo de nuevos métodos de clasificación
+O@Indica que la desventaja de este método es que en cada iteración ocurren uniones que generan que la segmentación resultante dependa del orden de estas uniones
+O@Ante este problema se propone un algoritmo que en cada iteración define un conjunto de subimágenes y el par más similar de las regiones adyacentes es unido a cada subimagen
+S@Los resultados obtenidos son satisfactorios, ya que los límites de las regiones tienen buena correspondencia con los contornos de las cubiertas en las imágenes de test
+O@Otro caso de aplicación de Region Growing es presentado en [2], en el cual se seleccionó una de las subregiones de la Llanura Pampeana en Argentina y se utilizaron cuatro imágenes Landsat 5 con el fin de capturar las diferencias fenológicas entre distintos tipos de cobertura
+O@Con respecto a K-Means, en [1] se propone una variante del algoritmo estándar cuyo objetivo es mostrar la efectividad de los algoritmos de clustering en términos cuantitativos evaluando la validez de los clústers con respecto al valor relativo de los mismos
+O@Con este fin se proponen dos medidas
+O@la concentración, por la cual ítems dentro de una misma categoría deben ser tan idénticos como sea posible y la contigüidad a través de la cual se indica que es preferible que pixeles adyacentes se encuentren en la misma categoría o clase
+O@Se comprobó que estas medidas son propiedades casi ortogonales, con lo cual es posible realizar mejoras considerables en una de ellas con una mínima pérdida en la otra
+O@Por último, en 0 se presenta una variante denominada “Filtering algorithm”, la cual comienza almacenando los puntos en un kd-tree y, en cada etapa, los centros más cercanos a cada punto son computados y cada centro es movido al centroide de los vecinos asociados
+O@Luego, los candidatos son podados de acuerdo a como son propagados a los nodos hijos
+S@La prueba final de este método involucró la segmentación de una imagen satelital de Landsat en la cual se presentaron muy buenos resultados del algoritmo propuesto
+O@En este trabajo se ha evaluado el comportamiento de diferentes clasificadores automáticos existentes que no se habían aplicado a imágenes multiespectrales de manera tal de poder comparar con los resultados que se obtienen en los métodos de clasificaciones basados en NDVI
+O@A continuación se presenta la evolución de los métodos implementados
+O@En primer lugar, se desarrolla un clasificador no supervisado basado en entrenamiento denominado Clasificador de Máxima Distancia que, para cada pixel a clasificar, utiliza como vector característico la firma espectral compuesta por la reflectividad normalizada y corregida por el efecto Rayleigh
+O@La utilización de un clasificador entrenado implica una etapa de entrenamiento y una etapa de selección y aplicación del algoritmo de clasificación
+O@La primera etapa consiste en determinar las cubiertas que se utilizarán como muestras durante la clasificación
+O@Estas clases están formadas por un conjunto de puntos que conforman distintas nube de puntos
+O@La generación de las mismas se realiza de forma manual con el conocimiento del usuario que selecciona los puntos a incorporar a cada clase
+O@Este vector representa la firma espectral de la nube de puntos y permitirá clasificar los pixeles de una región
+O@Posteriormente, la etapa de asignación consiste en clasificar una región asignando cada pixel a la clase que se encuentra a la mínima distancia (utilizando la distancia Euclídea), obtenida al comparar su firma espectral con la de los centroides de las clases
+O@Este clasificador no opera de forma iterativa, sino que se trata de un clasificador de una sola pasada
+O@De un análisis preliminar de los resultados obtenidos se observó que cuanto menor es la cantidad de clases, se incrementa la cantidad de falsos positivos
+O@Ante esta característica, se agregó una clase denominada “Sin Clasificar” a la cual se asignan los pixeles que se encuentran a una distancia mayor que un determinado umbral con respecto a todas las nubes de puntos
+O@El valor umbral es configurable para facilitar la evaluación del clasificador
+O@Luego, se propone aplicar diferentes métodos de inicialización para el entrenamiento de los clasificadores
+O@Por esta razón se implementa el método de Region Growing, con el fin de que provea firmas espectrales de regiones homogéneas que sirvan como entrada del Clasificador de Máxima Distancia y de K-means
+O@Region Growing toma como semillas un conjunto de puntos seleccionados por el usuario y hace crecer las regiones considerando como condición de crecimiento que la distancia entre el centroide y un pixel se encuentre bajo un valor umbral
+O@Se considera una vecindad de orden 4
+O@Cada vez que se agrega un punto a la región se recalcula su centroide considerando las firmas espectrales de los puntos que pertenecen a la misma hasta ese momento
+O@Los valores umbrales bajos generan regiones en las cuales pixeles similares no son considerados en el crecimiento de la región, mientras que si se eligen valores umbrales altos, el algoritmo genera regiones con una alta cantidad de puntos
+O@Dado que el resultado final depende del orden en el que se realizan las inclusiones de los pixeles, se pueden generar porciones inconexas
+O@Este problema es aplicando operadores morfológicos a través de los cuales se suavizan las regiones
+O@El resultado de este clasificador es una serie de cubiertas segmentadas a partir de semillas seleccionadas por el usuario, que conservan un centroide que las identifica, el cual puede ser utilizado como vector característico de un clasificador diferente
+O@El algoritmo de K-means implementado consta de cuatro etapas
+O@Consiste en la determinación de los centroides iniciales de las cubiertas a clasificar a través de métodos de inicialización
+O@En esta etapa comienza un proceso iterativo en el cual se asignan los pixeles a las cubiertas de acuerdo a la distancia a la que se encuentran de los centroides
+O@Estas distancias son calculadas a través de una medida de similaridad
+O@Se verifica si la clasificación obtenida hasta el momento satisface la condición de finalización del algoritmo
+O@La condición de convergencia puede determinarse indicando un determinado número de iteraciones, o bien cuando no se producen modificaciones entre dos iteraciones
+O@Cada método de inicialización provee el conjunto de centroides que representan a las cubiertas a identificar durante la ejecución de una clasificación
+O@En el presente trabajo se utilizaron los métodos de inicialización aleatorio y manual
+O@El Índice de Vegetación Diferencial Normalizado es una herramienta para monitorear la salud de la vegetación en un momento particular
+O@Se basa en que los vegetales muestran una actividad significante en el infrarrojo cercano, mientras que los valores de rojo son bajos
+O@Otras cubiertas presentan un comportamiento contrario
+O@Siendo la reflectividad en las bandas necesarias para realizar el cálculo
+O@Estas reflectividades toman valores en un rango de 0 a 1, como consecuencia, el NDVI varía entre -1 y +1
+O@Los valores negativos y cercanos a cero indican la ausencia de vegetación
+O@Los valores por encima de 0,2 indican presencia de vegetación, aunque puede tratarse de vegetación poco densa
+O@A partir de valores de 0,4 se presenta vegetación con mayor cobertura
+O@Valores de 0,6 indican áreas boscosas y por encima de 0,7 hasta 1 contienen campos de cultivo de gran vigor
+O@En esta sección se muestran los resultados obtenidos bajo diferentes condiciones
+O@Se estudió el comportamiento de los clasificadores bajo diferentes métodos de inicialización con el fin de evaluar su influencia en el resultado de las clasificaciones
+O@Para este fin, se eligieron muestras correspondientes a seis regiones presentes en imágenes Landsat 5 y Landsat 7 que se caracterizan por presentar superficies con agua, áreas con y sin vegetación y zonas urbanas
+O@Estas regiones fueron clasificadas bajo los algoritmos K-means y Clasificador de Máxima Distancia y bajo los métodos de inicialización descritos en la sección 3.3.1
+O@De cada una de las muestras tomadas se generaron imágenes como la presentada en la Figura 3 con el fin de realizar la interpretación visual de los resultados
+O@La observación de la información demostró que los métodos que presentan mayor similitud, en todas las regiones, son la selección manual, firmas espectrales medias y la utilización del resultado previo de Region Growing
+O@Existe mayor similitud en los resultados obtenidos en K-means que en el Clasificador de Máxima Distancia
+O@Con respecto a la utilización de resultados previos, se verificó que K-means, bajo la utilización del resultado previo de todos los métodos de inicialización, no provee mejoras en la clasificación final, ya que las mismas son realizadas en dos iteraciones y generan resultados idénticos a los originales
+O@Este análisis consiste en comparar el comportamiento de las clasificaciones aplicadas sobre cada banda de la imagen satelital con la clasificación que considera los valores de reflectancia en todas las bandas para el cálculo de las funciones de similitud y determinar cuáles presentan resultados similares a la clasificación multiespectral
+O@Este análisis estudia el comportamiento multiespectral de las regiones 2 y 5 bajo K-means inicializado con los métodos selección manual, firmas espectrales medias y la utilización del resultado previo de Region Growing
+O@Inicialmente se comparó el resultado multiespectral con las clasificaciones en cada banda
+O@Posteriormente se observaron los histogramas de las bandas, se aplicaron los comparadores de Diferencia e Intersección y se calcularon las matrices de confusión e indicadores asociados
+O@El resultado multiespectral se indica en las columnas de la matriz, mientras que las bandas se indican en las filas
+O@Los valores en la diagonal muestran los pixeles clasificados de la misma manera, mientras que los valores fuera de la diagonal representan puntos asignados a diferentes clases
+O@El análisis de los histogramas demostró que en las bandas más altas se produce un aumento de la amplitud
+O@Las bandas 4, 5 y 7 presentan los valores mayores en ambas regiones
+O@Posteriormente, en el análisis de las diferencias e intersecciones, se verificó que en la Región 2 la banda 4 es la que presenta mayor similaridad con respecto al resultado final bajo todos los métodos de inicialización, mientras que en la Región 5 se produce en la banda 70
+O@Finalmente, se interpretaron los indicadores de la matriz de confusión
+O@los valores mayores se presentan en las bandas 4 y 70 en las dos regiones y el rango numérico de los mismos se encuentra entre 0,61 y 0,68
+O@Indica las probabilidades a priori de la clasificación considerando que todas las clases tienen la misma probabilidad de ser asignadas a un pixel
+O@Dado que se identificaron 5 cubiertas, este valor es de 0,2
+O@Representa el porcentaje de similitud que se espera al azar y en ambas regiones no superó el 25%
+O@Indica la calidad de la clasificación eliminando la fracción de la clasificación debida al azar
+O@En ambas regiones presenta valores entre el 50% y el 60% presentando los valores más altos en las bandas 4 y 70, respectivamente
+O@En esta sección se comparan los resultados de las clasificaciones obtenidas a través de K-Means con respecto a los resultados provistos al aplicar NDVI sobre dos regiones diferentes
+O@La observación de la Figura 5 demuestra que NDVI genera aproximadamente un 40% de falsos positivos con respecto a K-Means, debido a que únicamente considera la diferencia entre dos bandas, mientras que los algoritmos de clasificación tienen en cuenta todas las bandas de la imagen satelital
+O@Esta característica permite identificar los diferentes tipos de cubiertas presentes en una región y no solamente vegetación
+S@Obviamente, el NDVI permite indicar con buena precisión la salud de la vegetación, y se lo considera un indicador útil para complementar con la aplicación de clasificadores con el fin de obtener resultados de mayor precisión
+O@En el presente trabajo se evaluó el comportamiento de los clasificadores implementados sobre regiones contenidas en imágenes de Landsat 5 y 7
+O@Los análisis se centraron en la evaluación de los métodos de inicialización, el estudio multiespectral y en la comparación de K-Means con el NDVI
+O@La evaluación de los métodos de inicialización determinó que los que presentan mejores resultados son la selección manual, firmas espectrales medias y la utilización del resultado previo de Region Growing, mientras que los demás métodos presentan resultados con mayores diferencias en ambos clasificadores
+O@Posteriormente, el análisis de las clasificaciones por banda demostró que las bandas 4, 5 y 7 presentan mayores amplitudes de sus histogramas en ambos satélites y sus clasificaciones son las más semejantes al resultado multiespectral del clasificador
+O@Como resultado de este trabajo, se desarrolló una herramienta de software que permite clasificar automáticamente imágenes Landsat 5 y 7 y que, además de proveer alternativas de visualización de cubiertas clasificadas, permite la extracción de información de cada clúster, como los centroides, área ocupada, entre otros
+O@La herramienta puede ser extendida mediante la implementación de algoritmos que no requieran la participación del usuario en la selección de los centroides iniciales
