@@ -1764,3 +1764,35 @@ O@Esto último se aprecia con las muestras 523 a 525
 O@Debe recordarse que nunca se tendrá sesgo positivo pues significaría que el corrimiento supera la unidad, lo cual se ha asegurado que no ocurra al fijar un período de 1 segundo para la PeH
 O@El cálculo se condice con una fracción de 1/32768 de segundo hacia un lado u otro de la considerada como centro en este caso
 O@Las salidas de las compuertas son aplicadas en paralelo con los pulsadores SW2 a SW4 de cada placa, provocando un evento simultáneo mediante la operación de una única llave SW1
+S@Yo supongo que para mi tía Úrsula, tan enredo político era la Revolución francesa como la riña de dos aldeanos borrachos a la puerta de una taberna, un día de mercado
+S@repuse yo, con la indiferencia de un hombre a quien no preocupa la Historia
+S@Yo no soy editor
+S@¿Qué importa? Publica las Memorias como si las hubieras encontrado o como si las hubieras escrito tú
+S@¡Ah! ¡Claro! Por ahora, al menos, en la vida real no hay la costumbre de quejarse desde la tumba, y creo que Leguía no será una excepción a la regla
+S@Pues yo no tendría escrúpulo ninguno
+S@Cada cual tiene sus incompatibilidades
+S@Tú no irías ahora por la calle con una flor en el pelo, y, sin embargo, yo la llevaría sin ninguna molestia
+S@El no querer aprovecharse del trabajo de los demás es una obligación
+S@Yo no quiero ser como el grajo de la fábula, que se adornaba con plumas ajenas
+S@Además, no sé si Leguía era un buen prosista
+S@¡Pues no había de ser!
+S@¿Y antes no? ¿Por qué?
+S@Esto de hacer sinónimo canalla y policía me pareció una prueba de buen sentido de mi tía Dama Úrsula
+S@¿Y qué hizo, en resumen, ese Aviraneta?
+S@Debió de hacer muchas trastadas
+S@Por eso me gustaría ver esas Memorias
+S@¿Y por qué no las lees?
+S@Es que están escritas con una letra malísima, con abreviaturas, y no puedo entender bien lo que dice
+S@¿Y quieres que yo descifre el manuscrito? ¿Por eso me aconsejas que lo publique? ¡Qué graciosa!
+S@No, no lo creas
+S@Quizá digan que las Memorias de Aviraneta es lo mejor que has publicado
+S@Realmente, se puede creer, sin dificultad, que un pariente sea un buen carpintero, un buen abogado, un buen médico; pero que sea un buen escritor, es cosa inaceptable, a no ser que se haya muerto hace bastantes años
+S@No, no; si yo creo que eres un buen escritor
+S@Pues yo no estoy decidido a firmar un libro que no he escrito
+S@Eso no es tan fácil
+S@¡No ha de ser fácil! No digas tonterías..
+S@¡Para un hombre tan despejado como tú! Conque ya sabes, si quieres le diré a la Joshepa Iñashi que te lleve los papeles de Leguía a tu casa
+S@Me pareció, a pesar de mi tendencia antihistórica, que algunas cosas no dejaban de tener interés
+S@En las sociedades anémicas, débiles, no se vive con la realidad; se puede poner la mano en todo menos en los símbolos y en las formas
+S@El cinismo contra el ceremonial es el que menos se perdona
+S@Entre tanto charlatán hueco y sonoro como ha sido exaltado en la España del siglo XIX, a Eugenio de Aviraneta, hombre valiente, patriota atrevido, liberal entusiasta, le tocó en suerte en su tiempo el desprecio, y después de su muerte, el olvido

@@ -15,8 +15,8 @@ import re
 
 
 # PATH = 'res/books/pg47103.txt'
-# 18779.txt
-PATH = 'continue1496792838.txt'
+# res/books/elAprendizDeConspirador.txt
+PATH = 'continue1496797789.txt'
 TIMESTAMP = str(round(time.time()))
 
 
@@ -61,7 +61,7 @@ def append_paper_labels(path):
     count = 0
     asked = 0
     with open_paper(path) as paper, open_out_file() as out, open_remaining_file() as remainings:
-        lines = paper.read().replace('\n', ' ').replace(':', '. ').split('. ')
+        lines = paper.read().replace('\n', ' ').replace(':', '. ').replace('--', '. ').split('. ')
         total = len(lines)
         ok = True
         for sentence in lines:
