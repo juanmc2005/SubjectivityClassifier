@@ -1,0 +1,10 @@
+Con este arreglo se asegura que el ingreso de cada  evento diferirá en alrededor de 1 nanosegundo, que es el tiempo de propagación  especificado por el fabricante para cada compuerta.
+A los efectos de la granularidad  que se dispone para discriminación del tiempo de eventos, el ingreso de eventos con  esta nueva modalidad puede considerarse simultáneo.
+Pulsando el botón y  liberándolo, se provoca el registro de dos eventos en cada una de las UCs.
+ En efecto, se efectuó la operación que nos arrojó los valores que se presentan en la  tabla 2, destacando que los eventos difieren entre si a lo sumo en +/- 1 (equivalente a  +/- 0.03 ms), para la sincronización externa.
+ Se ha llegado a una definición y un desarrollo experimental bien definidos de  sincronización mediante broadcast en microcontroladores en red multipunto.
+El valor  de exactitud de la Puesta en Hora mediante broadcast es altamente satisfactorio, y en  este caso no se puede evaluar más allá debido a la granularidad de los relojes.
+El  sesgo en cualquiera de las unidades respecto al dispositivo que oficia de patrón otorga  valores comparables a la propia exactitud del patrón (30 ppm).
+  Se efectuó también la sincronización de hora mediante un patrón externo de mayor  exactitud que provee el UTC, logrando así la sincronización externa de una subred y,  de hecho, todas las UCs del sistema distribuido completo.
+La tabla 3 presenta una  comparación de escenarios donde pueden evidenciarse los cambios efectuados al  hardware y/o al software para llevarlo al escenario actual y de esta forma justificar las  mejoras obtenidas con el sistema..
+.

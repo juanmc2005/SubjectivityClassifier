@@ -1692,3 +1692,75 @@ O@La evaluación de los métodos de inicialización determinó que los que prese
 O@Posteriormente, el análisis de las clasificaciones por banda demostró que las bandas 4, 5 y 7 presentan mayores amplitudes de sus histogramas en ambos satélites y sus clasificaciones son las más semejantes al resultado multiespectral del clasificador
 O@Como resultado de este trabajo, se desarrolló una herramienta de software que permite clasificar automáticamente imágenes Landsat 5 y 7 y que, además de proveer alternativas de visualización de cubiertas clasificadas, permite la extracción de información de cada clúster, como los centroides, área ocupada, entre otros
 O@La herramienta puede ser extendida mediante la implementación de algoritmos que no requieran la participación del usuario en la selección de los centroides iniciales
+O@﻿Este artículo se enfoca en una mejora sustancial al problema de sincronización de relojes de controladores en red respecto a anteriores implementaciones
+O@En esta nueva instancia se utiliza nuevo hardware que posee módulos embebidos con algunas nuevas tecnologías y se efectúan cambios al software para incorporar estas mejoras
+S@En particular, se realiza una profunda experimentación que evidencia el trabajo de mejora efectuado
+S@Debido a ello, el logro de valores de significativa calidad en las mediciones efectuadas, se considera un avance en las técnicas de sincronización
+O@En un artículo anterior, se aborda la problemática de sincronización en redes de procesadores
+O@Más específicamente, el trabajo se enfoca en microcontroladores (se utilizarán los términos procesadores y microcontroladores como sinónimos) que se interconectan mediante una red multipunto, por ejemplo bajo norma RS485
+O@En esta red, los procesadores tienen como misión principal la interacción con el campo de aplicación, realizando una tarea general de supervisión y control (SCADA)
+O@Varias de estas subredes pueden ser configuradas y a través de su Concentrador es posible vincularlas a una red de mayor velocidad (Red 2), en la que se puede encontrar uno (o varios) Centro(s) de Control
+O@El elemento clave en este protocolo es el Concentrador, que introduce regularmente mensajes específicos de sincronización entre los mensajes que se transmiten normal y aleatoriamente por la red
+O@El Concentrador además, posee sincronización externa mediante GPS
+O@Utilización de placas industriales multi-capa, con procesadores de 16 bits
+O@En el prototipo del estudio anterior se utilizaron procesadores de 8 bits, sobre una placa artesanal
+O@La velocidad de proceso se aumentó a 40 MIPS (con cristal de 80 MHz)
+O@Anteriormente se había utilizado una velocidad de 5 MIPS (con cristal de 20 MHz)
+O@Los procesadores poseen interrupciones vectorizadas, lo que permite otorgar alta prioridad a las rutinas que se relacionan específicamente con la sincronización
+O@Se aumentó la velocidad de la red serie multipunto al máximo permitido por las UARTS de los procesadores
+O@El valor establecido fue de 256 Kbps, que guarda una relación de 26,6 respecto a la velocidad anteriormente utilizada (9600 bps)
+O@La UART de los procesadores posee también mejoras, ya que posee interrupción por varias fuentes específicamente en la transmisión
+S@Es particularmente interesante la interrupción por último caracter completamente serializado
+O@Un evento se define como un cambio de estado de una variable asociada
+O@En particular, un evento digital sería el pasaje de 0 a 1 ó de 1 a 0
+O@Un evento analógico, podría definirse como la superación de una determinada banda por encima o por debajo de un estado anterior
+O@En el procesador se programa lo necesario a efectos que ocurra una interrupción de alta prioridad ante la existencia de un evento
+S@Como es conocido, los sistemas distribuidos tienen un reloj por cada CPU del sistema, por lo que es fundamental una coordinación entre todos los relojes para tener una referencia de hora única
+O@Se aprovecha que la subred es multipunto, donde es posible emitir un mensaje broadcast que todos los procesadores pueden recibir
+O@Este factor se denomina exactitud de hora y los valores usuales se sitúan por debajo de 1 ms
+O@La sincronización así definida haría posible presentar una secuencia de eventos ocurridos en un ambiente (industrial o similar), vinculado a microcontroladores de un SCADA, con consistencia independientemente de la unidad que hubiere registrado cada evento
+O@La exactitud de esta secuencia, será determinada por la convergencia que guardaren los RTC de cada una de las unidades a través del tiempo
+O@Los cristales de los osciladores de cada microcontrolador, típicamente poseen variaciones en su frecuencia que están alrededor de 30 partes por millón (ppm) y como consecuencia todos los relojes sufren un desfase y deben ser sincronizados periódicamente
+O@El Concentrador funcionará entonces como gateway de cada subred y como encargado de la sincronización interna de una cantidad acotada (alrededor de 30) de dispositivos en una zona o área de trabajo
+O@Dado que cada concentrador puede tener asociado un dispositivo que otorgue el UTC (Tiempo Universal Coordinado), como ser un GPS, podría lograrse la llamada sincronización externa de todo el sistema
+O@El Concentrador es un elemento definido para operar entre las dos redes
+O@El trabajo esencial del Concentrador es encapsular los mensajes que se generan en su subred al protocolo de la Red 2 con destino al Centro de Control
+O@De manera análoga, los mensajes que se generan en la Red 2 por el Centro de Control, son desencapsulados por el Concentrador y transferidos a la subred correspondiente
+O@El hardware utilizado para la función de Concentrador posee un módulo Ethernet, así como también una interfase serie RS232 (con conversión a RS485)
+O@Además posee una segunda interfase serie más una entrada digital, a efectos de adosar el GPS
+O@El reloj de tiempo real que tiene el Concentrador para mantener su propia hora es obtenido mediante un temporizador (timer) alimentado directamente por un cristal de cuarzo de 32768 Hz
+O@Para la sincronización externa se usa un GPS con PPS (Pulse per Second)
+O@Este mecanismo consiste en la emisión de un flanco en cada pasaje por cero de un segundo, con una precisión del orden de un microsegundo
+O@Este flanco es recibido por la entrada digital, provocando una interrupción de alta prioridad que inmediatamente pone a cero el contador de fracciones de segundo, redondeando hacia arriba el segundo en caso que el ajuste fuera positivo
+O@Por lo tanto, el ajuste del timer está muy por debajo de su granularidad, que es de 1/32768 de segundo
+O@A continuación, a través del segundo puerto serie, se impone la hora hasta el nivel de segundo
+O@De esta forma el Concentrador obtiene su hora relacionada con el UTC
+O@Con un período regulable y cuyo valor será precisado en la experimentación, el Concentrador realiza el sincronismo de su subred dependiente
+O@Anteriormente se había utilizado un tiempo de 5 segundos, el cual era suficiente en relación con la velocidad relativamente baja de transmisión del mensaje
+O@En este caso, para emitir el mensaje de sincronización, el Concentrador espera la respuesta a un eventual requerimiento que se pudiere estar cursando desde el Centro de Control, a efectos de asegurarse que la subred multipunto se encuentre en silencio para la emisión del mensaje en broadcast
+O@Cuando tal situación está asegurada, el Concentrador lee su hora y la emite a la Subred en un mensaje denominado PeH (Puesta en Hora) dentro del protocolo Mara-1
+O@Como se ha observado, se decidió utilizar una característica importante de la red de interconexión que es el broadcast físico de datos
+O@Con esta metodología, cada unidad de la subred que recibe el mensaje de sincronismo efectúa el ajuste de su reloj interno con el mínimo retraso posible
+O@Un mensaje de Puesta en Hora (PeH) contiene desde el año actual hasta una fracción de segundo de casi cuatro cifras significativas hexadecimales (equivalente a 30 microsegundos)
+S@En el análisis de las ecuaciones se evidencian varios factores técnicos de implementación que es necesario comentar
+O@Esta velocidad en cada controlador está determinada por el cristal principal, que típicamente tiene una precisión del orden de 30 ppm (equivalente al cristal del reloj) y por un timer interno de la UART respondiendo a la siguiente fórmula
+O@El mismo debe ser entero, por lo que se debe redondear
+O@Ello presupone que el error de cálculo de la duración del mensaje estará en el orden de precisión del cristal y por ende por debajo del microsegundo
+S@Otro detalle importante es cómo cada una de las UCs determinan cuándo termina el último carácter del mensaje (en particular la duración de su stop bit)
+O@A diferencia del resto de los comandos que poseen un derrotero variado, la rutina que efectúa la PeH en cada controlador se dispara a continuación de la detección consistente del mensaje, de manera tal que es predeterminado el momento en que ésta se ejecuta
+O@Se aprovecha tanto la mayor velocidad de proceso como las interrupciones vectorizadas
+O@Además, una Terminal de diagnóstico oficia de Centro de Control y emite mensajes mediante el protocolo Mara-1
+O@El Concentrador está vinculado a la Terminal de diagnóstico montado sobre una PC mediante una conexión Ethernet
+O@Éste emite cada 2 segundos un comando de PeH cuya estructura resumida es la siguiente
+O@En un bloque de 5 bytes se codifica el año, el día dentro del mismo, la hora, el segundo dentro de la misma y el día de la semana
+O@En un bloque de dos bytes se codifica la fracción de segundo (de 0 a 7FFFh)
+O@El bloque final del mensaje de 2 bytes es el Check-Sum de todo el paquete
+O@Se describe a continuación la modalidad de las pruebas realizadas
+O@A efectos que la deriva se mantenga en las especificaciones de los cristales se fija en 1 segundo el período de la PeH
+O@En la llegada del mensaje broadcast, en cada UC se calcula el sesgo existente entre su hora local y la que impone el mensaje de PeH (un valor positivo indica un adelanto de la UC)
+O@Se recaba el estado de cada UC, con intervalos de 500 ms (con redundancia a efectos de no perder ningún nuevo estado)
+O@En el ensayo se tomaron 1200 muestras durante un intervalo de 10 minutos
+O@Esto último se aprecia con las muestras 523 a 525
+O@Debe recordarse que nunca se tendrá sesgo positivo pues significaría que el corrimiento supera la unidad, lo cual se ha asegurado que no ocurra al fijar un período de 1 segundo para la PeH
+O@El cálculo se condice con una fracción de 1/32768 de segundo hacia un lado u otro de la considerada como centro en este caso
+O@Las salidas de las compuertas son aplicadas en paralelo con los pulsadores SW2 a SW4 de cada placa, provocando un evento simultáneo mediante la operación de una única llave SW1
