@@ -16,7 +16,7 @@ import re
 
 # PATH = 'res/books/pg47103.txt'
 # res/books/elAprendizDeConspirador.txt
-PATH = 'continue1496797789.txt'
+PATH = 'continue1496963425.txt'
 TIMESTAMP = str(round(time.time()))
 
 
