@@ -1,5 +1,5 @@
 
-with open('sentences1495152141.txt', 'r', encoding='utf8') as db:
+with open('sentences_db.txt', 'r', encoding='utf8') as db:
     class_target = 1000
     subj = 0
     obj = 0
@@ -16,7 +16,4 @@ with open('sentences1495152141.txt', 'r', encoding='utf8') as db:
     print('-----------------')
     print('Subjetivas Restantes: ' + str(class_target - subj))
     print('Objetivas Restantes: ' + str(class_target - obj))
-    remaining = class_target * 2 - subj - obj
-    print('Total Restantes: ' + str(remaining))
-    print('-----------------')
-    print('Tiempo Estimado: ' + str(remaining / 100) + 'hs')
+    print('Total Restantes: ' + str(class_target * 2 - subj - obj))
