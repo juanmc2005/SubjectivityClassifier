@@ -1,5 +1,5 @@
 
-with open('sentences_db.txt', 'r', encoding='utf8') as db:
+with open('raw_db.txt', 'r', encoding='utf8') as db:
     class_target = 1000
     subj = 0
     obj = 0
