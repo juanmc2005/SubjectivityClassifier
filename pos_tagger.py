@@ -17,7 +17,6 @@ z -> number
 details: http://clic.ub.edu/corpus/webfm_send/18
 """
 
-import re
 from nltk.tag.stanford import StanfordPOSTagger
 
 spanish_postagger = StanfordPOSTagger(
@@ -27,13 +26,16 @@ spanish_postagger = StanfordPOSTagger(
 )
 
 
+def ismodifier(label):
+    return label == 'a' or label == 'r'
+
+
+def tag(sentence):
+    return spanish_postagger.tag(sentence.split('\n'))
+
+
 def tag_sentences(sentences):
+    res = []
     for sent in sentences:
-
-        words = re.sub('[,.?/@#]', '', sent).split()
-        tagged_words = spanish_postagger.tag(words)
-
-        for (word, tag) in tagged_words:
-            print(word + ' ' + tag)
-
-        print('')
+        res.append(tag(sent))
+    return res
