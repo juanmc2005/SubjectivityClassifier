@@ -32,3 +32,7 @@ def ismodifier(label):
 
 def tag(words):
     return _spanish_postagger.tag(words)
+
+
+def tag_all(sentences):
+    return _spanish_postagger.tag_sents(sentences)

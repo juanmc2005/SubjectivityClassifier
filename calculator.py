@@ -19,6 +19,7 @@ class Calculator:
 
     def swfisf(self, word):
         fsx = self._occurrences(word, self._subjective)
+        # TODO fx can be 0!!!!!!!
         fx = self._occurrences(word, self._objective) + fsx
         return (fsx / self._subjective_count) * log(self.sentence_count() / fx)
 
