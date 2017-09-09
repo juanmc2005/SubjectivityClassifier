@@ -85,8 +85,6 @@ class Preprocessor:
                     matrix[1].append(calc.occurrences(word))
                     matrix[2].append(pos)
                     matrix[3].append(1 if tagger.ismodifier(tag) else 0)
-                    # TODO reported key words
-                    # TODO possible sentiment analysis
                 matrices.append(matrix)
 
             self._verbose_print(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
