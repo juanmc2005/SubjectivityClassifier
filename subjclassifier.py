@@ -2,6 +2,7 @@ class SubjClassifier:
 
     def __init__(self):
         self.sentences = None
+        self.processed_sentences = None
         self.labels = None
         self.matrices = None
 
@@ -22,7 +23,7 @@ class PreprocessorSubjClassifier(SubjClassifier):
         self.preprocessor = preprocessor
 
     def preprocess(self, verbose=True):
-        self.sentences, self.labels, self.matrices = self.preprocessor.preprocess(verbose)
+        self.sentences, self.processed_sentences, self.labels, self.matrices = self.preprocessor.preprocess(verbose)
         return self
 
     # TODO override methods

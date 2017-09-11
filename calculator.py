@@ -13,15 +13,32 @@ class Calculator:
         self._objective = objective
         self._subjective_count = len(subjective)
         self._objective_count = len(objective)
+        self._subj_word_count = 0
+        for s in subjective:
+            self._subj_word_count += len(s)
+        self._obj_word_count = 0
+        for s in objective:
+            self._obj_word_count += len(s)
 
     def sentence_count(self):
         return self._objective_count + self._subjective_count
 
     def swfisf(self, word):
-        fsx = self._occurrences(word, self._subjective)
-        # TODO fx can be 0!!!!!!!
-        fx = self._occurrences(word, self._objective) + fsx
+        fsx = self.subj_occurrences(word)
+        fx = self.obj_occurrences(word) + fsx
         return (fsx / self._subjective_count) * log(self.sentence_count() / fx)
 
+    def subj_occurrences(self, word):
+        return self._occurrences(word, self._subjective)
+
+    def weighted_subj_occurrences(self, word):
+        return self.subj_occurrences(word) / self._subj_word_count
+
+    def obj_occurrences(self, word):
+        return self._occurrences(word, self._objective)
+
+    def weighted_obj_occurrences(self, word):
+        return self.obj_occurrences(word) / self._obj_word_count
+
     def occurrences(self, word):
-        return self._occurrences(word, self._subjective) + self._occurrences(word, self._objective)
+        return self.subj_occurrences(word) + self.obj_occurrences(word)
