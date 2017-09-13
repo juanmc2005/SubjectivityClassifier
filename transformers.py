@@ -24,9 +24,9 @@ def matrix_to_vector(matrix, trigrams):
         sum(nlargest(3, matrix[COL_SWFISF])) / 3,
         sum(matrix[COL_FRS]) / height,
         sum(matrix[COL_FRO]) / height,
-        _frs_over_fro_rate(matrix, height),
+        _frs_over_fro_rate(matrix, height),  # TODO NOT WORKING
         sum(matrix[COL_MODIFIER]) / height,
-        _pats(trigrams)
+        _pats(trigrams)  # TODO NOT WORKING
     ]
 
 
@@ -36,13 +36,6 @@ def _pats(trigrams):
         return reduce(lambda acc, gram: acc + 1 if _fits_any_pattern(gram) else acc, trigrams, 0) / n
     else:
         return 0
-
-
-def len_trigrams(trigrams):
-    count = 0
-    for _ in trigrams:
-        count += 1
-    return count
 
 
 def _fits_any_pattern(gram):
