@@ -26,8 +26,24 @@ _spanish_postagger = StanfordPOSTagger(
 )
 
 
-def ismodifier(label):
-    return label == 'a' or label == 'r'
+def is_modifier(label):
+    return is_adjective(label) or is_adverb(label)
+
+
+def is_adjective(label):
+    return label == 'a'
+
+
+def is_adverb(label):
+    return label == 'r'
+
+
+def is_noun(label):
+    return label == 'n'
+
+
+def is_verb(label):
+    return label == 'v'
 
 
 def tag(words):

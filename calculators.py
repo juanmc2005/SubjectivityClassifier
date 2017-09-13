@@ -2,7 +2,7 @@ from functools import reduce
 from math import log
 
 
-class Calculator:
+class MetricsCalculator:
 
     @staticmethod
     def _occurrences(word, phrases):
@@ -31,13 +31,13 @@ class Calculator:
     def subj_occurrences(self, word):
         return self._occurrences(word, self._subjective)
 
-    def weighted_subj_occurrences(self, word):
+    def frs(self, word):
         return self.subj_occurrences(word) / self._subj_word_count
 
     def obj_occurrences(self, word):
         return self._occurrences(word, self._objective)
 
-    def weighted_obj_occurrences(self, word):
+    def fro(self, word):
         return self.obj_occurrences(word) / self._obj_word_count
 
     def occurrences(self, word):

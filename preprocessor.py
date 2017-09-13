@@ -1,11 +1,13 @@
 import emoji
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
+from nltk.util import ngrams
 from nltk import word_tokenize
 from string import punctuation
 from tqdm import tqdm
 
-from calculator import Calculator
+from transformers import sentence_to_matrix, matrix_to_vector
+from calculators import MetricsCalculator
 import postagger as tagger
 
 
@@ -53,9 +55,12 @@ class Preprocessor:
         self._verbose_print(emoji.emojize('    Tagging completed. Hope you enjoyed your coffee :smile:',
                                           use_aliases=True), verbose)
 
+        trigrams = []
         for s in self._verbose_list(tokenized, '    Cleaning words and stemming', verbose):
             # Clean POS tags
             sent = [(w, t[0]) for (w, t) in s]
+            # Extract trigrams
+            trigrams.append(ngrams(sent, 3))
             # Remove stop words
             sent = [p for p in sent if p[0] not in self.stopwords]
             # Stem
@@ -63,7 +68,19 @@ class Preprocessor:
             if sent:
                 res.append(sent)
         self._verbose_print('Formatting completed', verbose)
-        return res
+        return res, trigrams
+
+    def assemble_matrices(self, sentences, calculator, verbose):
+        matrices = []
+        for sentence in self._verbose_list(sentences, 'Building matrices', verbose):
+            matrices.append(sentence_to_matrix(sentence, calculator, tagger))
+        return matrices
+
+    def assemble_vectors(self, matrices, trigrams, verbose):
+        vectors = []
+        for i, matrix in self._verbose_list(enumerate(matrices), 'Building vectors', verbose):
+            vectors.append(matrix_to_vector(matrix, trigrams[i]))
+        return vectors
 
     def preprocess(self, verbose=True):
         with open(self.filename, encoding='utf8') as db:
@@ -71,23 +88,13 @@ class Preprocessor:
             lines = db.readlines()
             sentences = [x.split(self.separator) for x in lines]
             labels = [p[0] for p in sentences]
-            sentences = self._format_sentences([p[1] for p in sentences], verbose)
+            sentences, trigrams = self._format_sentences([p[1] for p in sentences], verbose)
             # Get subjective and objective sentences
             subjective = self._sentences_with_tag(self.labels[0], labels, sentences)
             objective = self._sentences_with_tag(self.labels[1], labels, sentences)
-
-            # Build matrices
-            calc = Calculator(subjective, objective)
-            matrices = []
-            for sentence in self._verbose_list(sentences, 'Building matrices', verbose):
-                matrix = [[], [], [], []]
-                for (word, tag) in sentence:
-                    matrix[0].append(calc.swfisf(word))
-                    matrix[1].append(calc.weighted_subj_occurrences(word))
-                    matrix[2].append(calc.weighted_obj_occurrences(word))
-                    matrix[3].append(1 if tagger.ismodifier(tag) else 0)
-                matrices.append(matrix)
-
+            metrics = MetricsCalculator(subjective, objective)
+            matrices = self.assemble_matrices(sentences, metrics, verbose)
+            vectors = self.assemble_vectors(matrices, trigrams, verbose)
             self._verbose_print(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
 
-        return lines, sentences, labels, matrices
+        return lines, sentences, labels, matrices, vectors

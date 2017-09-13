@@ -5,6 +5,7 @@ class SubjClassifier:
         self.processed_sentences = None
         self.labels = None
         self.matrices = None
+        self.vectors = None
 
     def fit(self):
         raise NotImplementedError()
@@ -23,7 +24,7 @@ class PreprocessorSubjClassifier(SubjClassifier):
         self.preprocessor = preprocessor
 
     def preprocess(self, verbose=True):
-        self.sentences, self.processed_sentences, self.labels, self.matrices = self.preprocessor.preprocess(verbose)
+        self.sentences, self.processed_sentences, self.labels, self.matrices, self.vectors = self.preprocessor.preprocess(verbose)
         return self
 
     # TODO override methods

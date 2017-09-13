@@ -10,6 +10,7 @@ def print_results(i):
     print(classifier.sentences[i])
     print(classifier.processed_sentences[i])
     print(np.asmatrix(classifier.matrices[i]))
+    print(classifier.vectors[i])
     print()
 
 print_results(15)
