@@ -1,14 +1,14 @@
+from string import punctuation
+
 import emoji
+import postagger as tagger
+from calculators import MatrixMetricsCalculator
+from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
 from nltk.util import ngrams
-from nltk import word_tokenize
-from string import punctuation
 from tqdm import tqdm
-
 from transformers import sentence_to_matrix, matrix_to_vector
-from calculators import MetricsCalculator
-import postagger as tagger
 
 
 class Preprocessor:
@@ -73,7 +73,7 @@ class Preprocessor:
     def assemble_matrices(self, sentences, calculator, verbose):
         matrices = []
         for sentence in self._verbose_list(sentences, 'Building matrices', verbose):
-            matrices.append(sentence_to_matrix(sentence, calculator, tagger))
+            matrices.append(sentence_to_matrix(sentence, calculator))
         return matrices
 
     def assemble_vectors(self, matrices, trigrams, verbose):
@@ -92,7 +92,7 @@ class Preprocessor:
             # Get subjective and objective sentences
             subjective = self._sentences_with_tag(self.labels[0], labels, sentences)
             objective = self._sentences_with_tag(self.labels[1], labels, sentences)
-            metrics = MetricsCalculator(subjective, objective)
+            metrics = MatrixMetricsCalculator(subjective, objective)
             matrices = self.assemble_matrices(sentences, metrics, verbose)
             vectors = self.assemble_vectors(matrices, trigrams, verbose)
             self._verbose_print(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)

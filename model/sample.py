@@ -1,6 +1,7 @@
-from subjclassifier import PreprocessorSubjClassifier
-from preprocessor import Preprocessor
 import numpy as np
+from preprocessor import Preprocessor
+
+from subjclassifier import PreprocessorSubjClassifier
 
 classifier = PreprocessorSubjClassifier(Preprocessor('raw_db.txt'))
 classifier.preprocess()
@@ -14,3 +15,6 @@ def print_results(i):
     print()
 
 print_results(800)
+print_results(900)
+print_results(1000)
+print_results(1100)
