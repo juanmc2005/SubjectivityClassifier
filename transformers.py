@@ -24,14 +24,18 @@ def matrix_to_vector(matrix, trigrams):
         sum(nlargest(3, matrix[COL_SWFISF])) / 3,
         sum(matrix[COL_FRS]) / height,
         sum(matrix[COL_FRO]) / height,
-        _frs_over_fro_rate(matrix, height),  # TODO NOT WORKING
+        _frs_over_fro_rate(matrix, height),
         sum(matrix[COL_MODIFIER]) / height,
         _pats(trigrams)  # TODO NOT WORKING
     ]
 
 
+def _frs_over_fro_rate(matrix, height):
+    return sum([1 for i in range(height) if matrix[COL_FRS][i] > matrix[COL_FRO][i]]) / height
+
+
 def _pats(trigrams):
-    n = sum([1 for _ in trigrams])
+    n = len(trigrams)
     if n > 0:
         return reduce(lambda acc, gram: acc + 1 if _fits_any_pattern(gram) else acc, trigrams, 0) / n
     else:
@@ -66,7 +70,3 @@ def _fits_pattern_4(gram):  # (SUST, ADV, ADJ)
 def _fits_pattern_5(gram):  # (VERB, ADV, X)
     ((_, t1), (_, t2), _) = gram
     return tagger.is_verb(t1) and tagger.is_adverb(t2)
-
-
-def _frs_over_fro_rate(matrix, height):
-    sum([1 for i in range(height) if matrix[COL_FRS][i] > matrix[COL_FRO][i]]) / height

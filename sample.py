@@ -13,6 +13,4 @@ def print_results(i):
     print(classifier.vectors[i])
     print()
 
-print_results(15)
 print_results(800)
-print_results(1500)

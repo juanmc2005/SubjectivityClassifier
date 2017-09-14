@@ -60,7 +60,7 @@ class Preprocessor:
             # Clean POS tags
             sent = [(w, t[0]) for (w, t) in s]
             # Extract trigrams
-            trigrams.append(ngrams(sent, 3))
+            trigrams.append(list(ngrams(sent, 3)))
             # Remove stop words
             sent = [p for p in sent if p[0] not in self.stopwords]
             # Stem
