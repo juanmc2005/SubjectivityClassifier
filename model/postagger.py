@@ -20,8 +20,8 @@ details: http://clic.ub.edu/corpus/webfm_send/18
 from nltk.tag.stanford import StanfordPOSTagger
 
 _spanish_postagger = StanfordPOSTagger(
-    'res/stanford/models/spanish.tagger',
-    'res/stanford/stanford-postagger.jar',
+    '../res/stanford/models/spanish.tagger',
+    '../res/stanford/stanford-postagger.jar',
     encoding='utf8'
 )
 

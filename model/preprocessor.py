@@ -41,7 +41,7 @@ class Preprocessor:
         self._verbose_print('Formatting {} sentences...'.format(len(sentences)), verbose)
         tokenized = []
         res = []
-        for s in self._verbose_list(sentences, '    Cleaning characters and tokenizing', verbose):
+        for s in self._verbose_list(sentences, '    Cleaning and tokenizing', verbose):
             # Remove unwanted characters
             sent = ''.join([c for c in s if c not in self.non_words])
             # Tokenize sentence
@@ -55,11 +55,13 @@ class Preprocessor:
         self._verbose_print(emoji.emojize('    Tagging completed. Hope you enjoyed your coffee :smile:',
                                           use_aliases=True), verbose)
 
+        bigrams = []
         trigrams = []
-        for s in self._verbose_list(tokenized, '    Cleaning words and stemming', verbose):
+        for s in self._verbose_list(tokenized, '    Extracting n-grams and stemming', verbose):
             # Clean POS tags
             sent = [(w, t[0]) for (w, t) in s]
-            # Extract trigrams
+            # Extract bigrams and trigrams
+            bigrams.append(list(ngrams(sent, 2)))
             trigrams.append(list(ngrams(sent, 3)))
             # Remove stop words
             sent = [p for p in sent if p[0] not in self.stopwords]
@@ -67,8 +69,9 @@ class Preprocessor:
             sent = [(self.stemmer.stem(w), t) for w, t in sent]
             if sent:
                 res.append(sent)
+
         self._verbose_print('Formatting completed', verbose)
-        return res, trigrams
+        return res, bigrams, trigrams
 
     def assemble_matrices(self, sentences, calculator, verbose):
         matrices = []
@@ -76,10 +79,10 @@ class Preprocessor:
             matrices.append(sentence_to_matrix(sentence, calculator))
         return matrices
 
-    def assemble_vectors(self, matrices, trigrams, verbose):
+    def assemble_vectors(self, matrices, bigrams, trigrams, verbose):
         vectors = []
         for i, matrix in self._verbose_list(enumerate(matrices), 'Building vectors', verbose):
-            vectors.append(matrix_to_vector(matrix, trigrams[i]))
+            vectors.append(matrix_to_vector(matrix, bigrams[i], trigrams[i]))
         return vectors
 
     def preprocess(self, verbose=True):
@@ -88,13 +91,13 @@ class Preprocessor:
             lines = db.readlines()
             sentences = [x.split(self.separator) for x in lines]
             labels = [p[0] for p in sentences]
-            sentences, trigrams = self._format_sentences([p[1] for p in sentences], verbose)
+            sentences, bigrams, trigrams = self._format_sentences([p[1] for p in sentences], verbose)
             # Get subjective and objective sentences
             subjective = self._sentences_with_tag(self.labels[0], labels, sentences)
             objective = self._sentences_with_tag(self.labels[1], labels, sentences)
             metrics = MatrixMetricsCalculator(subjective, objective)
             matrices = self.assemble_matrices(sentences, metrics, verbose)
-            vectors = self.assemble_vectors(matrices, trigrams, verbose)
+            vectors = self.assemble_vectors(matrices, bigrams, trigrams, verbose)
             self._verbose_print(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
 
         return lines, sentences, labels, matrices, vectors

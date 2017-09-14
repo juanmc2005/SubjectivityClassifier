@@ -18,7 +18,7 @@ def sentence_to_matrix(sentence, calculator):
     return matrix
 
 
-def matrix_to_vector(matrix, trigrams):
+def matrix_to_vector(matrix, bigrams, trigrams):
     calculator = VectorMetricsCalculator(matrix)
     return [
         calculator.avg_max_3(COL_SWFISF),
@@ -26,5 +26,6 @@ def matrix_to_vector(matrix, trigrams):
         calculator.rel_freq(COL_FRO),
         calculator.col_over_col_rel_freq(COL_FRS, COL_FRO),
         calculator.rel_freq(COL_MODIFIER),
-        calculator.pats(trigrams)
+        VectorMetricsCalculator.pabs(bigrams),
+        VectorMetricsCalculator.pats(trigrams)
     ]

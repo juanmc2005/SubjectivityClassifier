@@ -1,7 +1,7 @@
 from functools import reduce
 from heapq import nlargest
 from math import log
-import postagger as tagger
+from ngram_matchers import TrigramPatternMatcher, BigramPatternMatcher
 
 
 class MatrixMetricsCalculator:
@@ -49,29 +49,19 @@ class MatrixMetricsCalculator:
 class VectorMetricsCalculator:
 
     @staticmethod
-    def _fits_pattern_1(gram):  # (ADJ, SUST, X)
-        ((_, t1), (_, t2), _) = gram
-        return tagger.is_adjective(t1) and tagger.is_noun(t2)
+    def _ngrams_rel_freq(matcher, n):
+        if n > 0:
+            return matcher.match_count() / n
+        else:
+            return 0
 
     @staticmethod
-    def _fits_pattern_2(gram):  # (SUST, ADJ, X)
-        ((_, t1), (_, t2), _) = gram
-        return tagger.is_noun(t1) and tagger.is_adjective(t2)
+    def pabs(bigrams):
+        return VectorMetricsCalculator._ngrams_rel_freq(BigramPatternMatcher(bigrams), len(bigrams))
 
     @staticmethod
-    def _fits_pattern_3(gram):  # (ADV, ADJ, SUST)
-        ((_, t1), (_, t2), (_, t3)) = gram
-        return tagger.is_adverb(t1) and tagger.is_adjective(t2) and tagger.is_noun(t3)
-
-    @staticmethod
-    def _fits_pattern_4(gram):  # (SUST, ADV, ADJ)
-        ((_, t1), (_, t2), (_, t3)) = gram
-        return tagger.is_noun(t1) and tagger.is_adverb(t2) and tagger.is_adjective(t3)
-
-    @staticmethod
-    def _fits_pattern_5(gram):  # (VERB, ADV, X)
-        ((_, t1), (_, t2), _) = gram
-        return tagger.is_verb(t1) and tagger.is_adverb(t2)
+    def pats(trigrams):
+        return VectorMetricsCalculator._ngrams_rel_freq(TrigramPatternMatcher(trigrams), len(trigrams))
 
     def __init__(self, matrix):
         self._matrix = matrix
@@ -86,14 +76,3 @@ class VectorMetricsCalculator:
     def col_over_col_rel_freq(self, target_col, other_col):
         target_flags = [1 for i in range(self._height) if self._matrix[target_col][i] > self._matrix[other_col][i]]
         return sum(target_flags) / self._height
-
-    def pats(self, trigrams):
-        n = len(trigrams)
-        if n > 0:
-            return reduce(lambda acc, gram: acc + 1 if self._fits_any_pattern(gram) else acc, trigrams, 0) / n
-        else:
-            return 0
-
-    def _fits_any_pattern(self, gram):
-        return self._fits_pattern_1(gram) or self._fits_pattern_2(gram) \
-               or self._fits_pattern_3(gram) or self._fits_pattern_4(gram) or self._fits_pattern_5(gram)
