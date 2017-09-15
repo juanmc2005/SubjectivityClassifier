@@ -98,6 +98,7 @@ class Preprocessor:
             metrics = MatrixMetricsCalculator(subjective, objective)
             matrices = self.assemble_matrices(sentences, metrics, verbose)
             vectors = self.assemble_vectors(matrices, bigrams, trigrams, verbose)
+            labels = list(map(lambda l: 1 if l == self.labels[0] else 0, labels))
             self._verbose_print(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
 
         return lines, sentences, labels, matrices, vectors
