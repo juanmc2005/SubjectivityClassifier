@@ -1,4 +1,3 @@
-import numpy as np
 from preprocessor import Preprocessor
 from subjclassifier import SubjectivityPipeline
 from itertools import product
@@ -18,6 +17,7 @@ class Result:
         self.fscore = fscore
         self.c = c
         self.gamma = gamma
+
 
 classifier = SubjectivityPipeline(Preprocessor('../raw_db.txt')).preprocess()
 cs = [0.01, 0.1, 1, 10, 100, 1000]
@@ -59,7 +59,7 @@ for res in results:
     if max is None or (res.fscore[0] > max.fscore[0] and res.fscore[1] > max.fscore[1]):
         max = res
 
-with open('sample.txt', 'a', encoding='utf8') as f:
+with open('optimal_partition.txt', 'a', encoding='utf8') as f:
     f.write('X TRAIN\n')
     for v in max.x_train:
         f.write(str(v) + '\n')
@@ -77,33 +77,3 @@ with open('sample.txt', 'a', encoding='utf8') as f:
     f.write('Precision: ' + str(max.precision) + '\n')
     f.write('Recall: ' + str(max.recall) + '\n')
     f.write('F-Score: ' + str(max.fscore) + '\n')
-
-''' STAGE 2
-from itertools import product
-cs = [0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]
-gammas = [0.00001, 0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000, 10000, 100000]
-for c, gamma in product(cs, gammas):
-    print()
-    print('C = ' + str(c) + '    gamma = ' + str(gamma))
-    classifier.fit(c, gamma).evaluate()
-'''
-''' STAGE 3
-for i in range(10):
-    print()
-    print()
-    print('Iteration ' + str(i))
-    print('RBF')
-    classifier.fit('rbf', 10, 0.1).evaluate()
-    print()
-    print('Sigmoid')
-    classifier.fit('sigmoid', 1000, 0.0001).evaluate()
-'''
-
-
-def print_results(i):
-    print()
-    print(classifier.sentences[i])
-    print(classifier.processed_sentences[i])
-    print(np.asmatrix(classifier.matrices[i]))
-    print(classifier.vectors[i])
-    print()
