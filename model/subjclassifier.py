@@ -32,6 +32,9 @@ class SubjectivityPipeline(Pipeline):
     def preprocess(self, verbose=True):
         self.sentences, self.processed_sentences, self.labels, self.matrices, self.vectors =\
             self.preprocessor.preprocess(verbose)
+        return self
+
+    def build_classifier(self):
         x_train, x_test, y_train, y_test = \
             train_test_split(self.vectors, self.labels, test_size=0.2, stratify=self.labels)
         self.classifier = SubjClassifier(x_train, y_train, x_test, y_test)
@@ -42,8 +45,7 @@ class SubjectivityPipeline(Pipeline):
         return self
 
     def evaluate(self):
-        self.classifier.evaluate()
-        return self
+        return self.classifier.evaluate()
 
     # TODO override methods
 
@@ -65,8 +67,4 @@ class SubjClassifier:
     def evaluate(self):
         predicted = self.classifier.predict(self.x_test)
         precision, recall, fscore, support = scores(self.y_test, predicted)
-        print('precision: {}'.format(precision))
-        print('recall: {}'.format(recall))
-        print('fscore: {}'.format(fscore))
-        print('support: {}'.format(support))
-        return self
+        return precision, recall, fscore
