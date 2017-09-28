@@ -48,9 +48,22 @@ class NNClassifier(SubjectivityClassifier):
 
     def __init__(self, x_train, y_train, x_test, y_test):
         super().__init__(x_train, y_train, x_test, y_test)
+        self.solver = 'adam'
+        self.activation = 'tanh'
+        self.alpha = 1e-4
+        self.hidden_layer_sizes = (int((len(x_train[0]) + 1) / 2),)
+
+    def configure(self, solver, activation, alpha, hidden_layer_sizes):
+        self.solver = solver
+        self.activation = activation
+        self.alpha = alpha
+        self.hidden_layer_sizes = hidden_layer_sizes
 
     def _build_classifier(self):
-        return MLPClassifier(solver='lbfgs', alpha=1e-4, hidden_layer_sizes=(15, 8, 4), random_state=1)
+        return MLPClassifier(solver=self.solver,
+                             alpha=self.alpha,
+                             activation=self.activation,
+                             hidden_layer_sizes=self.hidden_layer_sizes)
 
 
 class SVMConfig:
