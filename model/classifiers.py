@@ -1,6 +1,8 @@
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import precision_recall_fscore_support as scores
+import pathlib
+from verbose import vprint
 
 
 class SubjectivityClassifier:
@@ -58,6 +60,7 @@ class NNClassifier(SubjectivityClassifier):
         self.activation = activation
         self.alpha = alpha
         self.hidden_layer_sizes = hidden_layer_sizes
+        return self
 
     def _build_classifier(self):
         return MLPClassifier(solver=self.solver,
@@ -66,19 +69,63 @@ class NNClassifier(SubjectivityClassifier):
                              hidden_layer_sizes=self.hidden_layer_sizes)
 
 
-class SVMConfig:
+class Config:
 
-    def __init__(self, x_train, y_train, x_test, y_test, kernel, precision, recall, fscore, c, gamma):
+    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore):
         self.x_train = x_train
         self.y_train = y_train
         self.x_test = x_test
         self.y_test = y_test
-        self.kernel = kernel
         self.precision = precision
         self.recall = recall
         self.fscore = fscore
+
+    def dump(self, verbose=True):
+        vprint('Dumping configuration...', verbose)
+        dir = self.dump_dir()
+        pathlib.Path(dir).mkdir(parents=True, exist_ok=True)
+        with open(dir + '/x_train.csv', 'a', encoding='utf8') as f:
+            f.write('MAX SWF-ISF,AVG FRS,AVG FRO,FR FRS/FRO,FRM,PABS,PATS\n')
+            for v in self.x_train:
+                f.write(str(v).replace('[', '').replace(']', '') + '\n')
+        with open(dir + '/y_train.csv', 'a', encoding='utf8') as f:
+            f.write('Subjective\n')
+            for v in self.y_train:
+                f.write(str(v).replace('[', '').replace(']', '') + '\n')
+        with open(dir + '/x_test.csv', 'a', encoding='utf8') as f:
+            f.write('MAX SWF-ISF,AVG FRS,AVG FRO,FR FRS/FRO,FRM,PABS,PATS\n')
+            for v in self.x_test:
+                f.write(str(v).replace('[', '').replace(']', '') + '\n')
+        with open(dir + '/y_test.csv', 'a', encoding='utf8') as f:
+            f.write('Subjective\n')
+            for v in self.y_test:
+                f.write(str(v).replace('[', '').replace(']', '') + '\n')
+        with open(dir + '/stats.txt', 'a', encoding='utf8') as f:
+            f.write(str(self))
+        vprint('Done', verbose)
+
+    def trained_classifier(self):
+        raise NotImplementedError()
+
+    def csv_str(self):
+        raise NotImplementedError()
+
+    def dump_dir(self):
+        raise NotImplementedError()
+
+
+class SVMConfig(Config):
+
+    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore, kernel, c, gamma):
+        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore)
+        self.kernel = kernel
         self.c = c
         self.gamma = gamma
+
+    def trained_classifier(self):
+        return SVMClassifier(self.x_train, self.y_train, self.x_test, self.y_test)\
+            .configure(self.kernel, self.c, self.gamma)\
+            .fit()
 
     def __str__(self):
         return """
@@ -89,3 +136,42 @@ class SVMConfig:
             c: {}
             gamma: {}
         """.format(self.kernel, self.precision, self.recall, self.fscore, self.c, self.gamma)
+
+    def csv_str(self):
+        return "{},{},{},{},{},{}".format(self.kernel, self.precision, self.recall, self.fscore, self.c, self.gamma)
+
+    def dump_dir(self):
+        return './svm'
+
+
+class NNConfig(Config):
+
+    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore, solver, activation, alpha, hlayers):
+        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore)
+        self.solver = solver
+        self.activation = activation
+        self.alpha = alpha
+        self.hlayers = hlayers
+
+    def trained_classifier(self):
+        return NNClassifier(self.x_train, self.y_train, self.x_test, self.y_test)\
+            .configure(self.solver, self.activation, self.alpha, self.hlayers)\
+            .fit()
+
+    def __str__(self):
+        return """
+            precision: {}
+            recall: {}
+            f-score: {}
+            solver: {}
+            activation function: {}
+            alpha: {}
+            hidden layers: {}
+        """.format(self.precision, self.recall, self.fscore, self.solver, self.activation, self.alpha, self.hlayers)
+
+    def csv_str(self):
+        return "{},{},{},{},{},{},{}"\
+            .format(self.precision, self.recall, self.fscore, self.solver, self.activation, self.alpha, self.hlayers)
+
+    def dump_dir(self):
+        return './nn'

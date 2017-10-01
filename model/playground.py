@@ -1,16 +1,12 @@
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import seaborn as sns
-from subjclassifier import Pipeline
+from nn_old.data import load_data_into_classifier
+from sklearn.feature_selection import SelectFromModel
+from subjpipeline import Pipeline
 from preprocessor import Preprocessor
-from classifiers import SVMClassifier
-from sklearn.model_selection import train_test_split
-from svm.data import load_data_into_classifier
 
-'''
+
 pipeline = Pipeline(Preprocessor('../raw_db.txt')).preprocess()
-
+pipeline.optimal_nn().dump()
+'''
 with open('../vectorized_db.csv', 'a', encoding='utf8') as f:
     f.write('subjective,max swf-isf,avg frs,avg fro,fr frs/fro,frm,pabs,pats\n')
     for i, v in tqdm(enumerate(pipeline.vectors), desc='Writing vectors to disk'):
@@ -25,9 +21,9 @@ with open('../vectorized_db.csv', 'a', encoding='utf8') as f:
 
 # pipeline = Pipeline(Preprocessor('../raw_db.txt')).preprocess()
 # x_train, x_test, y_train, y_test = train_test_split(pipeline.vectors, pipeline.labels, test_size=0.2, stratify=pipeline.labels)
-clf = load_data_into_classifier()
-clf.fit()
-print(clf.classifier.coef_.ravel())
+# clf = load_data_into_classifier()
+# clf.configure('adam', 'tanh', 0.0001, (3, 4, 5))
+# clf.fit()
 # ORDEN: ('MAX SWF-ISF', 'AVG FRS', 'AVG FRO', 'FR FRS/FRO', 'FRM', 'PABS', 'PATS'))
 
 # data = pd.read_csv('../vectorized_db.csv', delimiter=',')
@@ -36,7 +32,7 @@ print(clf.classifier.coef_.ravel())
 # sns.stripplot(x='Subjetiva', y='PATS', data=data, jitter=True, edgecolor='none', alpha=.40)
 # sns.pairplot(data, hue='Subjetiva', vars=('MAX SWF-ISF', 'FRM'))
 # sns.despine()
-plt.show()
+# plt.show()
 
 '''
 with open('optimal_partition.txt', 'a', encoding='utf8') as f:
