@@ -141,7 +141,7 @@ class SVMConfig(Config):
         return "{},{},{},{},{},{}".format(self.kernel, self.precision, self.recall, self.fscore, self.c, self.gamma)
 
     def dump_dir(self):
-        return './svm'
+        return './svm_dump'
 
 
 class NNConfig(Config):
@@ -174,4 +174,4 @@ class NNConfig(Config):
             .format(self.precision, self.recall, self.fscore, self.solver, self.activation, self.alpha, self.hlayers)
 
     def dump_dir(self):
-        return './nn'
+        return './nn_dump'

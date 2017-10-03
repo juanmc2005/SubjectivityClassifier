@@ -1,11 +1,10 @@
-from nn_old.data import load_data_into_classifier
+from svm.data import load_data_into_classifier
 from sklearn.feature_selection import SelectFromModel
+import numpy as np
 from subjpipeline import Pipeline
 from preprocessor import Preprocessor
 
 
-pipeline = Pipeline(Preprocessor('../raw_db.txt')).preprocess()
-pipeline.optimal_nn().dump()
 '''
 with open('../vectorized_db.csv', 'a', encoding='utf8') as f:
     f.write('subjective,max swf-isf,avg frs,avg fro,fr frs/fro,frm,pabs,pats\n')
@@ -18,13 +17,22 @@ with open('../vectorized_db.csv', 'a', encoding='utf8') as f:
         f.write('\n')
 '''
 
-
-# pipeline = Pipeline(Preprocessor('../raw_db.txt')).preprocess()
-# x_train, x_test, y_train, y_test = train_test_split(pipeline.vectors, pipeline.labels, test_size=0.2, stratify=pipeline.labels)
-# clf = load_data_into_classifier()
+pipeline = Pipeline(Preprocessor('../raw_db.txt')).preprocess()
+clf = load_data_into_classifier()
 # clf.configure('adam', 'tanh', 0.0001, (3, 4, 5))
-# clf.fit()
-# ORDEN: ('MAX SWF-ISF', 'AVG FRS', 'AVG FRO', 'FR FRS/FRO', 'FRM', 'PABS', 'PATS'))
+clf.fit()
+index = -1
+sentence = ""
+vector = []
+for i, s in enumerate(pipeline.sentences):
+    if i > 900 and pipeline.vectors[i] in clf.x_test:
+        index = i
+        sentence = s
+        vector = np.array(pipeline.vectors[i]).reshape(1, -1)
+        break
+print('Test sentence {}: {}'.format(index, sentence))
+print('Expected: {}'.format(pipeline.labels[index]))
+print('Prediction: {}'.format(clf.classifier.predict(vector)))
 
 # data = pd.read_csv('../vectorized_db.csv', delimiter=',')
 
