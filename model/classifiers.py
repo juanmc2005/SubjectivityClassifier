@@ -1,11 +1,40 @@
 from sklearn.svm import SVC
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import precision_recall_fscore_support as scores
+from sklearn.model_selection import cross_val_score
+import numpy as np
 import pathlib
 from verbose import vprint
 
 
-class SubjectivityClassifier:
+class MixedSubjectivityClassifier:
+
+    def __init__(self, X, y, nn, svm):
+        self.X = X
+        self.y = y
+        self.nn = nn
+        self.svm = svm
+
+    def fit(self):
+        self.nn.fit()
+        self.svm.fit()
+
+    def inner_evaluate(self):
+        nn_precision, nn_recall, nn_fscore = self.nn.evaluate()
+        svm_precision, svm_recall, svm_fscore = self.svm.evaluate()
+        return nn_precision, svm_precision, nn_recall, svm_recall, nn_fscore, svm_fscore
+
+    def evaluate(self):
+        return cross_val_score(self, self.X, self.y, cv=5, scoring='f1_macro').mean()
+
+    def predict(self, x):
+        nn_precision, svm_precision = self.inner_evaluate()[:2]
+        y_nn = self.nn.classifier.predict(np.reshape(x, (1, -1)))
+        y_svm = self.svm.classifier.predict(np.reshape(x, (1, -1)))
+        return y_nn if nn_precision[y_nn] > svm_precision[y_svm] else y_svm
+
+
+class SingleSubjectivityClassifier:
 
     def __init__(self, x_train, y_train, x_test, y_test):
         self.x_train = x_train
@@ -28,7 +57,7 @@ class SubjectivityClassifier:
         return precision, recall, fscore
 
 
-class SVMClassifier(SubjectivityClassifier):
+class SVMClassifier(SingleSubjectivityClassifier):
 
     def __init__(self, x_train, y_train, x_test, y_test):
         super().__init__(x_train, y_train, x_test, y_test)
@@ -46,7 +75,7 @@ class SVMClassifier(SubjectivityClassifier):
         return SVC(kernel=self.kernel, C=self.C, gamma=self.gamma)
 
 
-class NNClassifier(SubjectivityClassifier):
+class NNClassifier(SingleSubjectivityClassifier):
 
     def __init__(self, x_train, y_train, x_test, y_test):
         super().__init__(x_train, y_train, x_test, y_test)
@@ -71,7 +100,7 @@ class NNClassifier(SubjectivityClassifier):
 
 class Config:
 
-    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore):
+    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore, cross_mean_fscore):
         self.x_train = x_train
         self.y_train = y_train
         self.x_test = x_test
@@ -79,6 +108,7 @@ class Config:
         self.precision = precision
         self.recall = recall
         self.fscore = fscore
+        self.cross_mean_fscore = cross_mean_fscore
 
     def dump(self, verbose=True):
         vprint('Dumping configuration...', verbose)
@@ -116,8 +146,9 @@ class Config:
 
 class SVMConfig(Config):
 
-    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore, kernel, c, gamma):
-        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore)
+    def __init__(self, x_train, y_train, x_test, y_test, precision,
+                 recall, fscore, cross_mean_fscore, kernel, c, gamma):
+        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore, cross_mean_fscore)
         self.kernel = kernel
         self.c = c
         self.gamma = gamma
@@ -133,12 +164,14 @@ class SVMConfig(Config):
             precision: {}
             recall: {}
             f-score: {}
+            cross validation f-score: {}
             c: {}
             gamma: {}
-        """.format(self.kernel, self.precision, self.recall, self.fscore, self.c, self.gamma)
+        """.format(self.kernel, self.precision, self.recall, self.fscore, self.cross_mean_fscore, self.c, self.gamma)
 
     def csv_str(self):
-        return "{},{},{},{},{},{}".format(self.kernel, self.precision, self.recall, self.fscore, self.c, self.gamma)
+        return "{},{},{},{},{},{},{}".format(self.kernel, self.precision, self.recall,
+                                             self.fscore, self.cross_mean_fscore, self.c, self.gamma)
 
     def dump_dir(self):
         return './svm_dump'
@@ -146,8 +179,9 @@ class SVMConfig(Config):
 
 class NNConfig(Config):
 
-    def __init__(self, x_train, y_train, x_test, y_test, precision, recall, fscore, solver, activation, alpha, hlayers):
-        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore)
+    def __init__(self, x_train, y_train, x_test, y_test, precision, recall,
+                 fscore, cross_mean_fscore, solver, activation, alpha, hlayers):
+        super().__init__(x_train, y_train, x_test, y_test, precision, recall, fscore, cross_mean_fscore)
         self.solver = solver
         self.activation = activation
         self.alpha = alpha
@@ -163,15 +197,18 @@ class NNConfig(Config):
             precision: {}
             recall: {}
             f-score: {}
+            cross validation f-score: {}
             solver: {}
             activation function: {}
             alpha: {}
             hidden layers: {}
-        """.format(self.precision, self.recall, self.fscore, self.solver, self.activation, self.alpha, self.hlayers)
+        """.format(self.precision, self.recall, self.fscore, self.cross_mean_fscore,
+                   self.solver, self.activation, self.alpha, self.hlayers)
 
     def csv_str(self):
-        return "{},{},{},{},{},{},{}"\
-            .format(self.precision, self.recall, self.fscore, self.solver, self.activation, self.alpha, self.hlayers)
+        return "{},{},{},{},{},{},{},{}"\
+            .format(self.precision, self.recall, self.fscore, self.cross_mean_fscore,
+                    self.solver, self.activation, self.alpha, self.hlayers)
 
     def dump_dir(self):
         return './nn_dump'

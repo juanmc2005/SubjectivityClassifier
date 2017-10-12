@@ -1,0 +1,9 @@
+
+            kernel: sigmoid
+            precision: [ 0.90575916  0.8708134 ]
+            recall: [ 0.865  0.91 ]
+            f-score: [ 0.88491049  0.88997555]
+            cross validation f-score: 0.8912636012112143
+            c: 0.01
+            gamma: 0.001
+        
