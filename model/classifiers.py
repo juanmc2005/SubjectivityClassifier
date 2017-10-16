@@ -56,6 +56,9 @@ class SingleSubjectivityClassifier:
         precision, recall, fscore, support = scores(self.y_test, predicted)
         return precision, recall, fscore
 
+    def predict(self, X):
+        return self.classifier.predict(X)
+
 
 class SVMClassifier(SingleSubjectivityClassifier):
 

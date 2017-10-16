@@ -1,7 +1,7 @@
 from string import punctuation
 import emoji
 import postagger as tagger
-from calculators import MatrixMetricsCalculator
+from calculators import MatrixMetricsCalculator, SubjectivityEstimator
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import SnowballStemmer
@@ -82,7 +82,7 @@ class Preprocessor:
             lines = db.readlines()
             sentences = [x.split(self.separator) for x in lines]
             labels = [p[0] for p in sentences]
-            sentences, bigrams, trigrams = self._format_sentences([p[1] for p in sentences], verbose)
+            sentences, bigrams, trigrams = self._format_sentences(sentences, verbose)
             # Get subjective and objective sentences
             subjective = self._sentences_with_tag(self.labels[0], labels, sentences)
             objective = self._sentences_with_tag(self.labels[1], labels, sentences)
@@ -93,3 +93,37 @@ class Preprocessor:
             vprint(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
 
         return lines, sentences, labels, matrices, vectors
+
+    def _subjectivity_split(self):
+        with open(self.filename, encoding='utf8') as db:
+            lines = db.readlines()
+            sentences = [x.split(self.separator) for x in lines]
+            labels = [p[0] for p in sentences]
+            subjective = []
+            objective = []
+            for l, s in zip(labels, sentences):
+                if l == self.labels[0]:
+                    subjective.append(s[1])
+                else:
+                    objective.append(s[1])
+        return subjective, objective
+
+    def production_preprocess(self, filename, verbose=True):
+        db_subjective, db_objective = self._subjectivity_split()
+        estimator = SubjectivityEstimator(self.lang, self.non_words, self.labels[0], self.labels[1])\
+            .with_base_sentences(db_subjective, db_objective)
+        with open(filename, encoding='utf8') as doc:
+            lines = doc.readlines()
+            sentences = [x.replace('\n', '') for x in lines]
+            labels = estimator.estimate_all(sentences)
+            sentences, bigrams, trigrams = self._format_sentences(sentences, verbose)
+            # Get subjective and objective sentences
+            subjective = self._sentences_with_tag(self.labels[0], labels, sentences)
+            objective = self._sentences_with_tag(self.labels[1], labels, sentences)
+            metrics = MatrixMetricsCalculator(subjective, objective)
+            matrices = Preprocessor.assemble_matrices(sentences, metrics, verbose)
+            vectors = Preprocessor.assemble_vectors(matrices, bigrams, trigrams, verbose)
+            labels = list(map(lambda l: 1 if l == self.labels[0] else 0, labels))
+            vprint(emoji.emojize('Done :ok_hand:', use_aliases=True), verbose)
+
+        return vectors, labels

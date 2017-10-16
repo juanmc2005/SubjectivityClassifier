@@ -1,4 +1,6 @@
 from optimizers import SVMOptimizer, NNOptimizer
+from nn_cross.data import load_data_into_classifier as load_nn
+from svm_cross.data import load_data_into_classifier as load_svm
 
 
 class Pipeline:
@@ -28,3 +30,15 @@ class Pipeline:
     def optimal_nn(self, results_file='nn_results.csv', verbose=True):
         self.classifier, config = self.nn_optimizer.optimal(results_file, verbose)
         return config
+
+    def load_svm(self):
+        self.classifier = load_svm().configure('sigmoid', 0.01, 0.001).fit()
+        return self
+
+    def load_nn(self):
+        self.classifier = load_nn().configure('adam', 'relu', 0.01, (3,)).fit()
+        return self
+
+    def predict(self, docname, verbose=True):
+        vectors, estimated_labels = self.preprocessor.production_preprocess(docname, verbose)
+        return vectors, self.classifier.predict(vectors), estimated_labels

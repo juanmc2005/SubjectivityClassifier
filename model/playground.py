@@ -4,10 +4,27 @@ import numpy as np
 from subjpipeline import Pipeline
 from preprocessor import Preprocessor
 from sklearn.metrics import precision_recall_fscore_support as scores
+from sklearn.model_selection import RepeatedStratifiedKFold
+from sklearn.model_selection import cross_val_score
 
 
-pipeline = Pipeline(Preprocessor('../raw_db.txt'))
-pipeline.preprocess()
+pipeline = Pipeline(Preprocessor('../raw_db.txt'))\
+    .preprocess()\
+    .load_svm()
+
+vectors, predictions, estimated_labels = pipeline.predict('../prod_db.txt')
+precision, recall, fscore, support = scores(pipeline.labels, predictions)
+success = 0
+for label, prediction in zip(pipeline.labels, predictions):
+    if label == prediction:
+        success += 1
+success_rate = success / len(predictions)
+print("""
+    Precision: {}
+    Recall: {}
+    F-Score: {}
+    Success Rate: {}
+""".format(precision, recall, fscore, success_rate))
 
 
 '''
@@ -22,35 +39,20 @@ with open('../vectorized_db.csv', 'a', encoding='utf8') as f:
         f.write('\n')
 '''
 
+# cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=30, random_state=28756285)
+
+'''
 nn = load_nn()
 nn.configure('adam', 'relu', 0.01, (3,))
 nn.fit()
 nn_precision, nn_recall, nn_fscore = nn.evaluate()
 
-svm = load_svm()
-svm.configure('sigmoid', 0.01, 0.001)
-svm.fit()
-svm_precision, svm_recall, svm_fscore = svm.evaluate()
-
-predicted = []
-for v in pipeline.vectors:
-    y_nn = nn.classifier.predict(np.reshape(v, (1, -1)))
-    y_svm = svm.classifier.predict(np.reshape(v, (1, -1)))
-    if y_nn == 1 and y_svm == 1:
-        predicted.append(1)
-    elif y_nn == 0 and y_svm == 0:
-        predicted.append(0)
-    elif nn_precision[y_nn] > svm_precision[y_svm]:
-        predicted.append(y_nn)
-    else:
-        predicted.append(y_svm)
-
-precision, recall, fscore, support = scores(pipeline.labels, predicted)
+f1meannn = cross_val_score(nn.classifier, pipeline.vectors, pipeline.labels, cv=cv, scoring='recall').mean()
 print("""
-    precision: {},
-    recall: {},
-    fscore: {}
-""".format(precision, recall, fscore))
+    NN K Fold Mean Recall: {}
+""".format(f1meannn))
+'''
+
 
 
 

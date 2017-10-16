@@ -2,6 +2,52 @@ from functools import reduce
 from heapq import nlargest
 from math import log
 from ngram_matchers import TrigramPatternMatcher, BigramPatternMatcher
+from nltk import word_tokenize
+
+
+class SubjectivityEstimator:
+
+    @staticmethod
+    def _occurrences(word, phrases):
+        return reduce(lambda c, p: c + 1 if word in p else c, phrases, 0)
+
+    def __init__(self, lang, non_words, subj_label, obj_label):
+        self.lang = lang
+        self.non_words = non_words
+        self.subj_label = subj_label
+        self.obj_label = obj_label
+        self.db_subjective = []
+        self.db_objective = []
+
+    def with_base_sentences(self, db_subjective, db_objective):
+        self.db_subjective = [self._tokenize(s) for s in db_subjective]
+        self.db_objective = [self._tokenize(s) for s in db_objective]
+        return self
+
+    def subjectivity(self, word):
+        s_occurrences = SubjectivityEstimator._occurrences(word, self.db_subjective)
+        o_occurrences = SubjectivityEstimator._occurrences(word, self.db_objective)
+        if o_occurrences == 0 and s_occurrences == 0:
+            return 0
+        elif o_occurrences == 0 and s_occurrences != 0:
+            return 2
+        else:
+            return s_occurrences / o_occurrences
+
+    def _tokenize(self, sentence):
+        # Remove unwanted characters
+        clean_sent = ''.join([c for c in sentence if c not in self.non_words])
+        return word_tokenize(clean_sent, self.lang)
+
+    def estimate_sentence(self, sentence):
+        s_max = max([self.subjectivity(w) for w in self._tokenize(sentence)])
+        if s_max > 1:
+            return self.subj_label
+        else:
+            return self.obj_label
+
+    def estimate_all(self, sentences):
+        return [self.estimate_sentence(s) for s in sentences]
 
 
 class MatrixMetricsCalculator:
