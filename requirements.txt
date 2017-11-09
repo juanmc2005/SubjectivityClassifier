@@ -1,0 +1,6 @@
+pandas
+sklearn
+scipy
+tqdm
+emoji
+nltk

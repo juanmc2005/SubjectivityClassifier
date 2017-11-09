@@ -1,7 +1,0 @@
-Precision:             [ 0.93939394  0.93069307 ]
-Recall:                [ 0.93        0.94       ]
-F-Score:               [ 0.93467337  0.93532338 ]
-Solver:                adam
-Activation:            tanh
-Alpha:                 0.0001
-Hidden Layer Sizes:    (3, 4, 5)
